@@ -84,7 +84,7 @@ class Mahalanobis(Detector):
         """
 
         if device is None:
-            device = list(self.model.parameters())[0].device
+            device = z.device
             log.warning(f"No device given. Will use '{device}'.")
 
         z, y = z.to(device), y.to(device)
@@ -107,6 +107,7 @@ class Mahalanobis(Detector):
             self.mu[clazz] = zs.mean(dim=0)
             self.cov += (zs - self.mu[clazz]).T.mm(zs - self.mu[clazz])
 
+        self.cov += torch.eye(self.cov.shape[0], device=self.cov.device) * 1e-6
         self.precision = torch.linalg.inv(self.cov)
         return self
 
