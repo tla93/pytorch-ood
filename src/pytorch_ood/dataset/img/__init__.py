@@ -166,6 +166,10 @@ MVTech-AD
 ..  autoclass:: pytorch_ood.dataset.img.MVTechAD
     :members:
 
+BDDAnomaly
+`````````````
+..  autoclass:: pytorch_ood.dataset.img.BDDAnomaly
+    :members:
 
 Object Detection
 ----------------------
@@ -176,6 +180,7 @@ SuMNIST
     :members:
 
 """
+from .bddanomaly import BDDAnomaly
 from .chars74k import Chars74k
 from .cifar import CIFAR10C, CIFAR100C
 from .fishyscapes import FishyScapes, LostAndFound
