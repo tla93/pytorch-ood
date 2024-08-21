@@ -10,7 +10,7 @@ from typing import Any, Callable, Optional, Tuple
 import numpy as np
 import requests
 import scipy
-import tqdm
+from tqdm import tqdm
 from PIL import Image
 from torchvision.transforms.functional import to_tensor
 from torchvision.datasets.utils import check_integrity, download_and_extract_archive
@@ -76,7 +76,7 @@ class BDDAnomaly(ImageDatasetBase):
         if download:
             self.download_and_preprocessing()
         try:
-            with open(self.filename_list[subset], "r") as f:
+            with open(join(self.root, self.filename_list[subset]), "r") as f:
                 data = f.read()
         except FileNotFoundError:
             raise FileNotFoundError(
@@ -85,8 +85,8 @@ class BDDAnomaly(ImageDatasetBase):
 
         odgt = json.loads(data)
 
-        all_img = [join(root, prefix_img, elem["fpath_img"]) for elem in odgt]
-        all_segm = [join(root, prefix_img, elem["fpath_segm"]) for elem in odgt]
+        all_img = [join(root, elem["fpath_img"]) for elem in odgt]
+        all_segm = [join(root, elem["fpath_segm"]) for elem in odgt]
 
         self.all_img, self.all_segm = all_img, all_segm
 
@@ -124,70 +124,99 @@ class BDDAnomaly(ImageDatasetBase):
         """
         # download data
         self.download()
-        # prepare data
-        self.prepare_data()
-        # create odgt files
-        self.create_odgt_for_all()
+        # check if all .odgt files exist
+        do_prepare = False
+        for subset in self.subset_list:
+            if not os.path.exists(join(self.root, self.filename_list[subset])):
+                prepare = True
+                break
+        if do_prepare:
+            # prepare data
+            self.prepare_data()
+            # create odgt files
+            self.create_odgt_for_all()
+
+        # TODO check if all files are created and have the correct length
+
+    def download_annotations(self):
+        """
+        Download the annotations
+        """
+        # https://github.com/hendrycks/anomaly-seg/tree/4e7b1de5049500c30c07cef6925a96dd5304791b/seg
+        # URL of the repository
+        repo_url = "https://github.com/hendrycks/anomaly-seg"
+
+        # Folder you want to download
+        folder_path = "anomaly-seg-master/seg"
+
+        # Download the repository as a zip file
+        response = requests.get(repo_url + "/archive/master.zip")
+
+        # Make sure the request was successful
+        assert response.status_code == 200
+
+        # Open the zip file in memory
+        zip_file = zipfile.ZipFile(io.BytesIO(response.content))
+
+        # Extract the specific folder to the current directory
+        for file in zip_file.namelist():
+            print(file)
+            if file.startswith(folder_path):
+                zip_file.extract(file, self.root)  #
+        # TODO nicht umbenennen
+        # os.rename(join(self.root, "anomaly-seg-master", "seg"), join(self.root, "seg"))
+        # clean up
+        # shutil.rmtree(join(self.root, "anomaly-seg-master"))
+
+    def download_bdd10k(self):
+        """
+        Download the BDD10k dataset
+        """
+        # download BDD10k dataset
+        for subset in self.subset_list:
+            # check if folder exists
+            dir = join(self.root, f"bdd100k/images/10k/{subset.replace('validation','val')}")
+            print(dir)
+            if not os.path.exists(dir):
+                download_and_extract_archive(
+                    self.bdd10k_url[subset], self.root, filename=f"10k_images_{subset}.zip"
+                )
+                # remove the zip file
+                os.remove(join(self.root, f"10k_images_{subset}.zip"))
 
     def download(self):
         """
         Download the dataset
         """
-        # TODO download folder for bdd100k annotations to root
-        if not os.path.exists(join(self.root, "seg")):
-            # https://github.com/hendrycks/anomaly-seg/tree/4e7b1de5049500c30c07cef6925a96dd5304791b/seg
-            # URL of the repository
-            # URL of the repository
-            repo_url = "https://github.com/hendrycks/anomaly-seg"
-
-            # Folder you want to download
-            folder_path = "anomaly-seg-master/seg"
-
-            # Download the repository as a zip file
-            response = requests.get(repo_url + "/archive/master.zip")
-
-            # Make sure the request was successful
-            assert response.status_code == 200
-
-            # Open the zip file in memory
-            zip_file = zipfile.ZipFile(io.BytesIO(response.content))
-
-            # Extract the specific folder to the current directory
-            for file in zip_file.namelist():
-                print(file)
-                if file.startswith(folder_path):
-                    zip_file.extract(file, join(self.root, file))  #
-            # TODO nicht umbenennen
-            os.rename(join(self.root, "anomaly-seg-master", "seg"), join(self.root, "seg"))
-            # clean up
-            shutil.rmtree(join(self.root, "anomaly-seg-master"))
+        # check if abnnotations are downloaded
+        if not os.path.exists(join(self.root, "anomaly-seg-master/seg")):
+            self.download_annotations()
 
         # DOwnload BDD10k dataset
-        for subset in self.subset_list:
-            download_and_extract_archive(
-                self.bdd10k_url[subset], self.root, filename=f"10k_images_{subset}.zip"
-            )
-        raise NotImplementedError("Download of BDD100k dataset is finished")
-        # TODO download dataset from http://bdd-data.berkeley.edu/download.html
-        # currently not possible because of registration
-        pass
+        self.download_bdd10k()
 
     def prepare_data(self):
         """
         Prepare the data from dataset after downloading
         """
 
-        self.convert_bdd("seg/train_labels/train/")
+        self.convert_bdd(join("anomaly-seg-master/seg/train_labels/train/"))
         # TODO habe ich den validation spaß überhaupt gemacht???
-        self.convert_bdd("seg/train_labels/val/")
+        self.convert_bdd(join("anomaly-seg-master/seg/train_labels/val/"))
 
     def create_odgt_for_all(self):
         """
         Create odgt files for all subsets
         """
-        self.create_odgt("seg/images/train/", "seg/train_labels/train/", self.subset_list["train"])
         self.create_odgt(
-            "seg/images/val/", "seg/train_labels/val/", self.subset_list["validation"]
+            "bdd100k/images/10k/train",
+            "anomaly-seg-master/seg/train_labels/train/",
+            self.filename_list["train"],
+        )
+        self.create_odgt(
+            "bdd100k/images/10k/val",
+            "anomaly-seg-master/seg/train_labels/val/",
+            self.filename_list["validation"],
         )
 
     def create_odgt(
@@ -200,8 +229,8 @@ class BDDAnomaly(ImageDatasetBase):
         Create odgt files
         """
         # check if anom.odgt exists
-        if os.path.exists(join(self.root, self.subset_list["test"])):
-            anom_files = json.load(open(join(self.root, self.subset_list["test"])))
+        if os.path.exists(join(self.root, self.filename_list["test"])):
+            anom_files = json.load(open(join(self.root, self.filename_list["test"])))
         else:
             anom_files = []
         _files = []
@@ -236,9 +265,9 @@ class BDDAnomaly(ImageDatasetBase):
         print("total images in = {} and out =  {}".format(in_count, out_count))
 
         # save odgt files
-        with open(odgt_file, "w") as outfile:
+        with open(join(self.root, odgt_file), "w") as outfile:
             json.dump(_files, outfile)
-        with open(join(self.root, self.subset_list["test"], "w")) as outfile:
+        with open(join(self.root, self.filename_list["test"]), "w") as outfile:
             json.dump(anom_files, outfile)
 
         # TODO check if numbers of images per odgt is correct
@@ -249,6 +278,7 @@ class BDDAnomaly(ImageDatasetBase):
     def convert_bdd(self, ann_dir):
         for img_loc in tqdm(os.listdir(join(self.root, ann_dir))):
             img = Image.open(join(self.root, ann_dir) + img_loc)
+            img = np.array(img)
             if img.ndim <= 1:
                 continue
             # swap 255 with -1
@@ -265,4 +295,5 @@ class BDDAnomaly(ImageDatasetBase):
             loc = img == 19
             img[loc] = 18
             img += 1
-            scipy.misc.toimage(img, cmin=0, cmax=255).save(join(self.root, ann_dir) + img_loc)
+            Image.fromarray(img).save(join(self.root, ann_dir) + img_loc)
+            # scipy.misc.toimage(img, cmin=0, cmax=255).save(join(self.root, ann_dir) + img_loc)
