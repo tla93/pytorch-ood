@@ -41,20 +41,34 @@ class BDDAnomaly(ImageDatasetBase):
         "validation": "validation.odgt",
     }
 
+    md5_checksums = {
+        "test": "82741ae46c9873e4d0f538088a3f5eae",
+        "train": "86d4d19612376545e7cd0bec7b00bdca",
+        "validation": "02924e923eaf91803459f4b5b44d30eb",
+    }
+    bdd10k_url = {
+        "test": "https://dl.cv.ethz.ch/bdd100k/data/10k_images_test.zip",
+        "train": "https://dl.cv.ethz.ch/bdd100k/data/10k_images_train.zip",
+        "validation": "https://dl.cv.ethz.ch/bdd100k/data/10k_images_val.zip",
+    }
+    length_of_odgt = {
+        "test": 810,
+        "train": 6280,
+        "validation": 910,
+    }
+
     def __init__(
         self,
         root: str,
         subset: str,
         transform: Optional[Callable[[Tuple], Tuple]] = None,
         download: bool = False,
-        prefix_img="./",
     ) -> None:
         """
         :param root: root path for dataset
         :param subset: one of ``train``, ``test``, ``validation``
         :param transform: transformations to apply to images and masks, will get tuple as argument
         :param download: if dataset should be downloaded automatically
-        :param prefix_img: TODO
         """
         root = join(root, self.root_dir_offset)
         if not os.path.exists(root):
@@ -63,16 +77,7 @@ class BDDAnomaly(ImageDatasetBase):
 
         if subset not in self.subset_list:
             raise ValueError(f"Invalid subset: {subset}")
-        self.md5_checksums = {
-            "test": "82741ae46c9873e4d0f538088a3f5eae",
-            "train": "86d4d19612376545e7cd0bec7b00bdca",
-            "validation": "02924e923eaf91803459f4b5b44d30eb",
-        }
-        self.bdd10k_url = {
-            "test": "https://dl.cv.ethz.ch/bdd100k/data/10k_images_test.zip",
-            "train": "https://dl.cv.ethz.ch/bdd100k/data/10k_images_train.zip",
-            "validation": "https://dl.cv.ethz.ch/bdd100k/data/10k_images_val.zip",
-        }
+
         if download:
             self.download_and_preprocessing()
         try:
@@ -83,8 +88,17 @@ class BDDAnomaly(ImageDatasetBase):
                 f"File {self.filename_list[subset]} not found! Pleae download the dataset first with download=True."
             )
 
-        odgt = json.loads(data)
+        # check length of odgt file
+        for subset in self.subset_list:
+            with open(join(self.root, self.filename_list[subset]), "r") as f:
+                data = f.read()
+                odgt = json.loads(data)
+                print(f"subset: {subset}")
+                print(f"len(odgt): {len(odgt)}")
+                print(f"self.length_of_odgt[subset]: {self.length_of_odgt[subset]}")
+                # assert len(odgt) == self.length_of_odgt[subset]
 
+        odgt = json.loads(data)
         all_img = [join(root, elem["fpath_img"]) for elem in odgt]
         all_segm = [join(root, elem["fpath_segm"]) for elem in odgt]
 
@@ -111,8 +125,6 @@ class BDDAnomaly(ImageDatasetBase):
         id = id.split(".")[0]  # get id_name
 
         if self.transform is not None:
-            # # id is necassary for Inpainting outliers
-            # img, target = self.transform(img, target, id)
             # id is unnecassary
             img, target = self.transform(img, target)
 
@@ -128,7 +140,7 @@ class BDDAnomaly(ImageDatasetBase):
         do_prepare = False
         for subset in self.subset_list:
             if not os.path.exists(join(self.root, self.filename_list[subset])):
-                prepare = True
+                do_prepare = True
                 break
         if do_prepare:
             # prepare data
@@ -160,7 +172,6 @@ class BDDAnomaly(ImageDatasetBase):
 
         # Extract the specific folder to the current directory
         for file in zip_file.namelist():
-            print(file)
             if file.startswith(folder_path):
                 zip_file.extract(file, self.root)  #
         # TODO nicht umbenennen
@@ -176,7 +187,6 @@ class BDDAnomaly(ImageDatasetBase):
         for subset in self.subset_list:
             # check if folder exists
             dir = join(self.root, f"bdd100k/images/10k/{subset.replace('validation','val')}")
-            print(dir)
             if not os.path.exists(dir):
                 download_and_extract_archive(
                     self.bdd10k_url[subset], self.root, filename=f"10k_images_{subset}.zip"
@@ -243,16 +253,11 @@ class BDDAnomaly(ImageDatasetBase):
             ann_file_path = join(self.root, ann_dir) + ann_file
             if os.path.exists(ann_file_path):
                 dict_entry = {
-                    # "dbName": "BDD100k",
-                    # "width": 1280,
-                    # "height": 720,
-                    "fpath_img": file_dir + img,
-                    "fpath_segm": ann_dir + ann_file,
+                    "fpath_img": join(file_dir, img),
+                    "fpath_segm": join(ann_dir, ann_file),
                 }
-                # check values
+
                 img = np.array(Image.open(ann_file_path))
-                # print np.unique of img
-                print(np.unique(img))
 
                 cond1 = np.logical_or((img == 18), (img == 19))
                 if np.any(np.logical_or(cond1, (img == 20))):

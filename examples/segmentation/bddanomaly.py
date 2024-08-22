@@ -27,7 +27,8 @@ from torch.utils.data import DataLoader
 from torchvision.transforms.functional import pad, to_tensor
 
 from pytorch_ood.dataset.img import BDDAnomaly
-from pytorch_ood.detector import EnergyBased
+from pytorch_ood.detector import Entropy
+from pytorch_ood.loss import EntropicOpenSetLoss
 from pytorch_ood.utils import OODMetrics, fix_random_seed
 
 device = "cuda:0"
@@ -58,7 +59,7 @@ def my_transform(img, target):
 
 # %%
 # Setup datasets
-dataset = BDDAnomaly(root="data", subset="train", transform=my_transform, download=True)
+dataset = BDDAnomaly(root="data", subset="test", transform=my_transform, download=True)
 dataset_test = BDDAnomaly(root="data", subset="test", transform=my_transform, download=True)
 
 
@@ -68,12 +69,12 @@ model = smp.FPN(
     encoder_name="resnet50",
     encoder_weights="imagenet",
     in_channels=3,
-    classes=13,
+    classes=17,
 ).to(device)
 
 # %%
 # Train model for some epochs
-criterion = smp.losses.DiceLoss(mode="multiclass")
+criterion = EntropicOpenSetLoss()
 optimizer = torch.optim.Adam(params=model.parameters(), lr=0.0001)
 loader = DataLoader(
     dataset,
@@ -87,7 +88,7 @@ loader = DataLoader(
 ious = []
 loss_ema = 0
 ioe_ema = 0
-
+print(f"len(loader): {len(loader)}")
 for epoch in range(num_epochs):
     for n, (x, y) in enumerate(loader):
         optimizer.zero_grad()
@@ -102,7 +103,7 @@ for epoch in range(num_epochs):
             y_hat.softmax(dim=1).max(dim=1).indices.long(),
             y.long(),
             mode="multiclass",
-            num_classes=13,
+            num_classes=17,
         )
         iou = iou_score(tp, fp, fn, tn)
 
@@ -119,7 +120,7 @@ for epoch in range(num_epochs):
 print("Evaluating")
 model.eval()
 loader = DataLoader(dataset_test, batch_size=4, worker_init_fn=fix_random_seed, generator=g)
-detector = EnergyBased(model)
+detector = Entropy(model)
 metrics = OODMetrics(mode="segmentation")
 
 with torch.no_grad():
@@ -137,4 +138,4 @@ print(metrics.compute())
 
 # %%
 # Output:
-#   {'AUROC': 0.8069181442260742, 'AUPR-IN': 0.07396415621042252, 'AUPR-OUT': 0.9966945648193359, 'FPR95TPR': 0.7595465183258057}
+# {'AUROC': 0.9284870624542236, 'AUPR-IN': 0.3459857404232025, 'AUPR-OUT': 0.9970354437828064, 'FPR95TPR': 0.18216004967689514}
