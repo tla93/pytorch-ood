@@ -135,11 +135,19 @@ The package can be installed via PyPI:
 +-----------------------------+------------------------------------------------------------------------------------------------+------+--------------------+
 | Entropy                     | Uses entropy to detect OOD inputs.                                                             | 2021 | [#MaxEntropy]_     |
 +-----------------------------+------------------------------------------------------------------------------------------------+------+--------------------+
+| ReAct                       | ReAct: Out-of-distribution Detection With Rectified Activations.                               | 2021 | [#ReAct]_          |
++-----------------------------+------------------------------------------------------------------------------------------------+------+--------------------+
 | Maximum Logit               | Implements the MaxLogit method.                                                                | 2022 | [#StreeHaz]_       |
 +-----------------------------+------------------------------------------------------------------------------------------------+------+--------------------+
 | KL-Matching                 | Implements the KL-Matching method for Multi-Class classification.                              | 2022 | [#StreeHaz]_       |
 +-----------------------------+------------------------------------------------------------------------------------------------+------+--------------------+
 | ViM                         | Implements Virtual Logit Matching.                                                             | 2022 | [#ViM]_            |
++-----------------------------+------------------------------------------------------------------------------------------------+------+--------------------+
+| DICE                        | Implements Sparsification for OOD Detection                                                    | 2022 | [#DICE]_           |
++-----------------------------+------------------------------------------------------------------------------------------------+------+--------------------+
+| ASH                         | Implements Extremely Simple Activation Shaping                                                 | 2023 | [#Ash]_            |
++-----------------------------+------------------------------------------------------------------------------------------------+------+--------------------+
+| SHE                         | Implements Simplified Hopfield Networks                                                        | 2023 | [#She]_            |
 +-----------------------------+------------------------------------------------------------------------------------------------+------+--------------------+
 
 **Objective Functions**:
@@ -199,9 +207,17 @@ The package can be installed via PyPI:
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
 | StreetHazards         | Anomaly Segmentation Dataset                                                                                    | 2022 | [#StreeHaz]_  |
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
-| PixMix                | PixMix image augmentation method                                                                                | 2022 | [#PixMix]_    |
-+-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
 
+
+**Augmentation Methods**:
+
++-----------------------+-----------------------------------------------------------------------------------------------------------------+------+----------------+
+| Augmentation          | Description                                                                                                     | Year | Ref            |
++=======================+=================================================================================================================+======+================+
+| PixMix                | PixMix image augmentation method                                                                                | 2022 | [#PixMix]_     |
++-----------------------+-----------------------------------------------------------------------------------------------------------------+------+----------------+
+| COCO Outlier Pasting  | From "Entropy maximization and meta classification for OOD in semantic segmentation"                            | 2021 | [#MaxEntropy]_ |
++-----------------------+-----------------------------------------------------------------------------------------------------------------+------+----------------+
 
 **Text Datasets**:
 
@@ -303,3 +319,11 @@ The legal implications of using pre-trained models in commercial services are, t
 .. [#PixMix] Hendrycks, D, Zou, A,  et al. (2022) PixMix: Dreamlike Pictures Comprehensively Improve Safety Measures. CVPR
 
 .. [#MaxEntropy] Chan R,  et al. (2021) Entropy maximization and meta classification for out-of-distribution detection in semantic segmentation. CVPR
+
+.. [#DICE] Sun, et al. (2022) DICE: Leveraging Sparsification for Out-of-Distribution Detection. ECCV
+
+.. [#ASH] Djurisic,  et al. (2023) Extremely Simple Activation Shaping for Out-of-Distribution Detection, ICLR
+
+.. [#She] Zhang,  et al. (2023) Out-of-Distribution Detection Based on In-Distribution Data Patterns Memorization with Modern Hopfield Energy, ICLR
+
+.. [#ReAct] Sun,  et al. (2023) ReAct: Out-of-distribution Detection With Rectified Activations, NeurIPS
