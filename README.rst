@@ -147,7 +147,7 @@ The package can be installed via PyPI:
 +-----------------------------+------------------------------------------------------------------------------------------------+------+--------------------+
 | Weighted Energy-Based       | Implements Weighted Energy-Based for OOD Detection                                             | 2022 | [#WEBO]_           |
 +-----------------------------+------------------------------------------------------------------------------------------------+------+--------------------+
-| Nearest Neighbor            | Implements Depp Nearest Neighbors for OOD Detection                                            | 2022 | [#kNN]_           |
+| Nearest Neighbor            | Implements Depp Nearest Neighbors for OOD Detection                                            | 2022 | [#kNN]_            |
 +-----------------------------+------------------------------------------------------------------------------------------------+------+--------------------+
 | DICE                        | Implements Sparsification for OOD Detection                                                    | 2022 | [#DICE]_           |
 +-----------------------------+------------------------------------------------------------------------------------------------+------+--------------------+
@@ -173,7 +173,7 @@ The package can be installed via PyPI:
 | Deep SVDD                  | Implementation of the Deep Support Vector Data Description from the paper *Deep One-Class        | 2018 | [#SVDD]_           |
 |                            | Classification*.                                                                                 |      |                    |
 +----------------------------+--------------------------------------------------------------------------------------------------+------+--------------------+
-| Energy-Bounded Learning Loss | Adds a regularization term to the cross-entropy that aims to increase the energy gap between IN  | 2020 | [#EnergyBasedOOD]_ |
+| Energy-Bounded Loss        | Adds a regularization term to the cross-entropy that aims to increase the energy gap between IN  | 2020 | [#EnergyBasedOOD]_ |
 |                            | and OOD samples.                                                                                 |      |                    |
 +----------------------------+--------------------------------------------------------------------------------------------------+------+--------------------+
 | CAC Loss                   | Class Anchor Clustering Loss from *Class Anchor Clustering: a Distance-based Loss for Training   | 2021 | [#CACLoss]_        |
@@ -218,13 +218,12 @@ The package can be installed via PyPI:
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
 | ImageNet - A, O, R    | Different Outlier Variants for the ImageNet.                                                                    | 2019 | [#ImageNets]_ |
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
-| MVTech-AD             | MVTech Anomaly Segmentation Dataset                                                                             | 2021 | [#MVTech]_    |
-+-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
 | iNaturalist           | A Subset of iNaturalist, with 10.000 images.                                                                    | 2021 | [#INatural]_  |
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
 | Fractals              | A dataset with Fractals from *PIXMIX: Dreamlike Pictures Comprehensively Improve Safety Measures*               | 2022 | [#PixMix]_    |
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
-| Feature Visualizations | A dataset with Feature visualizations from *PIXMIX: Dreamlike Pictures Comprehensively Improve Safety Measures* | 2022 | [#PixMix]_   |
+| Feature               | A dataset with Feature visualizations from *PIXMIX: Dreamlike Pictures Comprehensively Improve Safety Measures* | 2022 | [#PixMix]_    |
+| Visualizations        |                                                                                                                 |      |               |
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
 | FS Static             | The FishyScapes (FS) Static dataset contains real world OOD images from the CityScapes dataset.                 | 2021 | [#FS]_        |
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
@@ -343,9 +342,9 @@ The legal implications of using pre-trained models in commercial services are, t
 
 .. [#MnistC] Mu, N., & Gilmer, J. (2019). MNIST-C: A robustness benchmark for computer vision. ICLR Workshop.
 
-.. [#FS] Blum, H. et al (2021) The Fishyscapes Benchmark: Measuring Blind Spots in Semantic Segmentation, International Journal of Computer Vision
+.. [#FS] Blum, H. et al (2021) The Fishyscapes Benchmark: Measuring Blind Spots in Semantic Segmentation. IJCV
 
-.. [#MVTech] Bergmann, P. et al (2021) The MVTec Anomaly Detection Dataset: A Comprehensive Real-World Dataset for Unsupervised Anomaly Detection, International Journal of Computer Vision
+.. [#MVTech] Bergmann, P. et al (2021) The MVTec Anomaly Detection Dataset: A Comprehensive Real-World Dataset for Unsupervised Anomaly Detection. IJCV
 
 .. [#StreeHaz] Hendrycks, D., Basart, S., Mazeika, M., Mostajabi, M., Steinhardt, J., & Song, D. (2022). Scaling out-of-distribution detection for real-world settings. ICML.
 
@@ -364,8 +363,6 @@ The legal implications of using pre-trained models in commercial services are, t
 .. [#Multi30k] Elliott, D., Frank, S., Sima'an, K., & Specia, L. (2016). Multi30k: Multilingual english-german image descriptions. Proceedings of the 5th Workshop on Vision and Language.
 
 .. [#WikiText2] Merity, S., Xiong, C., Bradbury, J., & Socher, R. (2016). Pointer sentinel mixture models. `ArXiv <https://arxiv.org/abs/1609.07843>`_
-
-.. [#MVTech] Bergmann, P., Batzner, K., et al. (2021) The MVTec Anomaly Detection Dataset: A Comprehensive Real-World Dataset for Unsupervised Anomaly Detection. IJCV.
 
 .. [#INatural] Huang, R., Li, Y. (2021) MOS: Towards Scaling Out-of-distribution Detection for Large Semantic Space. CVPR
 
