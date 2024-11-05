@@ -126,6 +126,8 @@ The package can be installed via PyPI:
 +-----------------------------+------------------------------------------------------------------------------------------------+------+--------------------+
 | Maximum Softmax Probability | Implements the Softmax Baseline for OOD and Error detection.                                   | 2017 | [#Softmax]_        |
 +-----------------------------+------------------------------------------------------------------------------------------------+------+--------------------+
+| Temperature Scaling         | Implements the Temperatur Scaling for Softmax.                                                 | 2017 | [#TempScaling]_    |
++-----------------------------+------------------------------------------------------------------------------------------------+------+--------------------+
 | ODIN                        | ODIN is a preprocessing method for inputs that aims to increase the discriminability of        | 2018 | [#ODIN]_           |
 |                             | the softmax outputs for In- and Out-of-Distribution data.                                      |      |                    |
 +-----------------------------+------------------------------------------------------------------------------------------------+------+--------------------+
@@ -142,6 +144,10 @@ The package can be installed via PyPI:
 | KL-Matching                 | Implements the KL-Matching method for Multi-Class classification.                              | 2022 | [#StreeHaz]_       |
 +-----------------------------+------------------------------------------------------------------------------------------------+------+--------------------+
 | ViM                         | Implements Virtual Logit Matching.                                                             | 2022 | [#ViM]_            |
++-----------------------------+------------------------------------------------------------------------------------------------+------+--------------------+
+| Weighted Energy-Based       | Implements Weighted Energy-Based for OOD Detection                                             | 2022 | [#WEBO]_           |
++-----------------------------+------------------------------------------------------------------------------------------------+------+--------------------+
+| Nearest Neighbor            | Implements Depp Nearest Neighbors for OOD Detection                                            | 2022 | [#kNN]_           |
 +-----------------------------+------------------------------------------------------------------------------------------------+------+--------------------+
 | DICE                        | Implements Sparsification for OOD Detection                                                    | 2022 | [#DICE]_           |
 +-----------------------------+------------------------------------------------------------------------------------------------+------+--------------------+
@@ -162,21 +168,25 @@ The package can be installed via PyPI:
 +----------------------------+--------------------------------------------------------------------------------------------------+------+--------------------+
 | Outlier Exposure           | Implementation of the paper *Deep Anomaly Detection With Outlier Exposure*.                      | 2018 | [#OE]_             |
 +----------------------------+--------------------------------------------------------------------------------------------------+------+--------------------+
+| Confidence Loss            | Model learn confidence additional to class membership prediction.                                | 2018 | [#ConfidenceLoss]_ |
++----------------------------+--------------------------------------------------------------------------------------------------+------+--------------------+
 | Deep SVDD                  | Implementation of the Deep Support Vector Data Description from the paper *Deep One-Class        | 2018 | [#SVDD]_           |
 |                            | Classification*.                                                                                 |      |                    |
 +----------------------------+--------------------------------------------------------------------------------------------------+------+--------------------+
-| Energy Regularization      | Adds a regularization term to the cross-entropy that aims to increase the energy gap between IN  | 2020 | [#EnergyBasedOOD]_ |
+| Energy-Bounded Learning Loss | Adds a regularization term to the cross-entropy that aims to increase the energy gap between IN  | 2020 | [#EnergyBasedOOD]_ |
 |                            | and OOD samples.                                                                                 |      |                    |
 +----------------------------+--------------------------------------------------------------------------------------------------+------+--------------------+
 | CAC Loss                   | Class Anchor Clustering Loss from *Class Anchor Clustering: a Distance-based Loss for Training   | 2021 | [#CACLoss]_        |
 |                            | Open Set Classifiers*                                                                            |      |                    |
 +----------------------------+--------------------------------------------------------------------------------------------------+------+--------------------+
-| Entropy Maximization       | Entropy maximization and meta classification for OOD in semantic segmentation                    | 2021 | [#MaxEntropy]_     |
+| Entropic Open-Set Loss     | Entropy maximization and meta classification for OOD in semantic segmentation                    | 2021 | [#MaxEntropy]_     |
 +----------------------------+--------------------------------------------------------------------------------------------------+------+--------------------+
 | II Loss                    | Implementation of II Loss function from *Learning a neural network-based representation for      | 2022 | [#IILoss]_         |
 |                            | open set recognition*.                                                                           |      |                    |
 +----------------------------+--------------------------------------------------------------------------------------------------+------+--------------------+
-| MCHAD Loss                 | Implementation of the MCHAD Loss friom the paper *Multi Class Hypersphere Anomaly Detection*.    | 2022 | [#MCHAD]_          |
+| MCHAD Loss                 | Implementation of the MCHAD Loss from the paper *Multi Class Hypersphere Anomaly Detection*.     | 2022 | [#MCHAD]_          |
++----------------------------+--------------------------------------------------------------------------------------------------+------+--------------------+
+| VOS Energy-Based Loss      | Implementation of the paper *VOS: Learning what you don’t know by virtual outlier synthesis*.    | 2022 | [#WEBO]_           |
 +----------------------------+--------------------------------------------------------------------------------------------------+------+--------------------+
 
 
@@ -185,13 +195,18 @@ The package can be installed via PyPI:
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
 | Dataset               | Description                                                                                                     | Year | Ref           |
 +=======================+=================================================================================================================+======+===============+
+| Chars74k              | The Chars74K dataset contains 74,000 images across 64 classes, comprising English letters and Arabic numerals.  | 2012 | [#Chars74k]_  |
++-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
 | TinyImages            | The TinyImages dataset is often used as auxiliary OOD training data. However, use is discouraged.               | 2012 | [#TinyImgs]_  |
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
 | Textures              | Textures dataset, also known as DTD, often used as OOD Examples.                                                | 2013 | [#Textures]_  |
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
-| FoolingImages         | OOD Images Generated to fool certain Deep Neural Networks.                                                      | 2014 | [#FImages]_   |
+| FoolingImages         | OOD Images Generated to fool certain Deep Neural Networks.                                                      | 2015 | [#FImages]_   |
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
 | TinyImages300k        | A cleaned version of the TinyImages Dataset with 300.000 images, often used as auxiliary OOD training data.     | 2018 | [#OE]_        |
++-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
+| LSUN                  | A version of the Large-scale Scene UNderstanding Dataset with 10.000 images, often used as auxiliary            | 2018 | [#ODIN]_      |
+|                       | OOD training data.                                                                                              |      |               |
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
 | MNIST-C               | Corrupted version of the MNIST.                                                                                 | 2019 | [#MnistC]_    |
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
@@ -205,8 +220,34 @@ The package can be installed via PyPI:
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
 | MVTech-AD             | MVTech Anomaly Segmentation Dataset                                                                             | 2021 | [#MVTech]_    |
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
+| iNaturalist           | A Subset of iNaturalist, with 10.000 images.                                                                    | 2021 | [#INatural]_  |
++-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
+| Fractals              | A dataset with Fractals from *PIXMIX: Dreamlike Pictures Comprehensively Improve Safety Measures*               | 2022 | [#PixMix]_    |
++-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
+| Feature Visualizations | A dataset with Feature visualizations from *PIXMIX: Dreamlike Pictures Comprehensively Improve Safety Measures* | 2022 | [#PixMix]_   |
++-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
+| FS Static             | The FishyScapes (FS) Static dataset contains real world OOD images from the CityScapes dataset.                 | 2021 | [#FS]_        |
++-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
+| FS LostAndFound       | The FishyScapes dataset contains images from the CityScapes dataset blended with unknown objects scraped from   | 2021 | [#FS]_        |
+|                       | the web.                                                                                                        |      |               |
++-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
+| MVTech-AD             | The MVTec AD is a dataset for benchmarking anomaly detection methods with a focus on industrial inspection.     | 2021 | [#MVTech]_    |
++-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
 | StreetHazards         | Anomaly Segmentation Dataset                                                                                    | 2022 | [#StreeHaz]_  |
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
+| CIFAR100-GAN          | Images sampled from low likelihood regions of a BigGAN trained on CIFAR 100 from the paper *On Outlier Exposure | 2022 | [#CifarGAN]_  |
+|                       | with Generative Models.*                                                                                        |      |               |
++-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
+| NINCO                 | The NINCO (No ImageNet Class Objects) dataset which contains 5.879 images of 64 OOD classes.                    | 2023 | [#NINCO]_     |
++-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
+| SuMNIST               | The SuMNIST dataset is based on MNIST but each image display four numbers instead of one.                       | 2023 | [#SuMNIST]_   |
++-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
+| Gaussian Noise        | Dataset with samples drawn from a normal distribution.                                                          |      |               |
++-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
+| Uniform Noise         | Dataset with samples drawn from a uniform distribution.                                                         |      |               |
++-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
+
+
 
 **Text Datasets**:
 
@@ -276,6 +317,10 @@ The legal implications of using pre-trained models in commercial services are, t
 
 .. [#Softmax] Hendrycks, D., & Gimpel, K. (2016). A baseline for detecting misclassified and out-of-distribution examples in neural networks. ICLR.
 
+.. [#TempScaling] Guo, C., Pleiss, G., Sun, Y., & Weinberger, K. (2017). On calibration of modern neural networks. ICML.
+
+.. [#ConfidenceLoss] DeVries, T., & Taylor, G. W. (2018). Learning confidence for out-of-distribution detection in neural networks. `ArXiv <https://arxiv.org/pdf/1802.04865>`_
+
 .. [#EnergyBasedOOD] Liu, W., Wang, X., Owens, J., & Li, Y. (2020). Energy-based out-of-distribution detection. NeurIPS.
 
 .. [#Objectosphere] Dhamija, A. R., Günther, M., & Boult, T. (2018). Reducing network agnostophobia. NeurIPS.
@@ -298,11 +343,23 @@ The legal implications of using pre-trained models in commercial services are, t
 
 .. [#MnistC] Mu, N., & Gilmer, J. (2019). MNIST-C: A robustness benchmark for computer vision. ICLR Workshop.
 
+.. [#FS] Blum, H. et al (2021) The Fishyscapes Benchmark: Measuring Blind Spots in Semantic Segmentation, International Journal of Computer Vision
+
+.. [#MVTech] Bergmann, P. et al (2021) The MVTec Anomaly Detection Dataset: A Comprehensive Real-World Dataset for Unsupervised Anomaly Detection, International Journal of Computer Vision
+
 .. [#StreeHaz] Hendrycks, D., Basart, S., Mazeika, M., Mostajabi, M., Steinhardt, J., & Song, D. (2022). Scaling out-of-distribution detection for real-world settings. ICML.
+
+.. [#CifarGAN] Kirchheim, K., Ortmeier, F. (2022) On Outlier Exposure with Generative Models. NeurIPS
+
+.. [#NINCO] Bitterwolf, J., et al. (2023) In or Out? Fixing ImageNet Out-of-Distribution Detection Evaluation. ICML
+
+.. [#SuMNIST] Kirchheim, K. (2023) Towards Deep Anomaly Detection with Structured Knowledge Representations. SAFECOMP
 
 .. [#Textures] Cimpoi, M., Maji, S., Kokkinos, I., Mohamed, S., & Vedaldi, A. (2014). Describing textures in the wild. CVPR.
 
 .. [#TinyImgs] Torralba, A., Fergus, R., & Freeman, W. T. (2007). 80 million tiny images: a large dataset for non-parametric object and scene recognition. IEEE Transactions on Pattern Analysis and Machine Learning.
+
+.. [#Chars74k] de Campos, T. E., et al. (2009). Character recognition in natural images. In Proceedings of the International Conference on Computer Vision Theory and Applications (VISAPP).
 
 .. [#Multi30k] Elliott, D., Frank, S., Sima'an, K., & Specia, L. (2016). Multi30k: Multilingual english-german image descriptions. Proceedings of the 5th Workshop on Vision and Language.
 
@@ -310,11 +367,17 @@ The legal implications of using pre-trained models in commercial services are, t
 
 .. [#MVTech] Bergmann, P., Batzner, K., et al. (2021) The MVTec Anomaly Detection Dataset: A Comprehensive Real-World Dataset for Unsupervised Anomaly Detection. IJCV.
 
+.. [#INatural] Huang, R., Li, Y. (2021) MOS: Towards Scaling Out-of-distribution Detection for Large Semantic Space. CVPR
+
 .. [#MCHAD] Kirchheim, K., Filax, M., Ortmeier, F. (2022) Multi Class Hypersphere Anomaly Detection. ICPR
 
 .. [#ViM] Wang, H., Li, Z., Feng, L., Zhang, W. (2022) ViM: Out-Of-Distribution with Virtual-logit Matching. CVPR
 
-.. [#PixMix] Hendrycks, D, Zou, A,  et al. (2022) PixMix: Dreamlike Pictures Comprehensively Improve Safety Measures. CVPR
+.. [#WEBO] Du, X., Wang, Z., Cai, M., Li, Y. (2022) VOS: Learning What You Don't Know by Virtual Outlier Synthesis. ICLR
+
+.. [#kNN] Sun, Y., et al. (2022) Out-of-Distribution Detection with Deep Nearest Neighbors. ICML
+
+.. [#PixMix] Hendrycks, D, et al. (2022) PixMix: Dreamlike Pictures Comprehensively Improve Safety Measures. CVPR
 
 .. [#MaxEntropy] Chan R,  et al. (2021) Entropy maximization and meta classification for out-of-distribution detection in semantic segmentation. CVPR
 
