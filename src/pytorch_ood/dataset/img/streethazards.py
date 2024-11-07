@@ -22,7 +22,7 @@ class StreetHazards(ImageDatasetBase):
         :alt: Street Hazards Dataset Example
         :align: center
 
-    :see Paper: `ArXiv <https://arxiv.org/.*>`__
+    :see Paper: `ArXiv <https://arxiv.org/pdf/1911.11132>`__
     :see Website: `GitHub <https://github.com/hendrycks/anomaly-seg>`__
     """
 
