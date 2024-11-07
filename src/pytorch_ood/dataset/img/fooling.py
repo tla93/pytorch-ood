@@ -19,7 +19,7 @@ class FoolingImages(ImageDatasetBase):
 
 
     :see Website: `Link <https://anhnguyen.me/project/fooling/>`__
-    :see Paper: `ArXiv <https://arxiv.org/.*>`__
+    :see Paper: `ArXiv <https://arxiv.org/pdf/1412.1897>`__
     """
 
     dirs = [f"run_{i}" for i in range(10)]
