@@ -161,6 +161,16 @@ LostAndFound
 ..  autoclass:: pytorch_ood.dataset.img.LostAndFound
     :members:
 
+RoadAnomaly
+`````````````
+..  autoclass:: pytorch_ood.dataset.img.RoadAnomaly
+    :members:
+
+SegmentMeIfYouCan
+`````````````
+..  autoclass:: pytorch_ood.dataset.img.SegmentMeIfYouCan
+    :members:
+
 MVTech-AD
 `````````````
 ..  autoclass:: pytorch_ood.dataset.img.MVTechAD
@@ -189,6 +199,8 @@ from .noise import GaussianNoise, UniformNoise
 from .odin import LSUNCrop, LSUNResize, TinyImageNetCrop, TinyImageNetResize
 from .openood import OpenImagesO, Places365, iNaturalist
 from .pixmix import FeatureVisDataset, FractalDataset, PixMixDataset
+from .roadanomaly import RoadAnomaly
+from .smiyc import SegmentMeIfYouCan
 from .streethazards import StreetHazards
 from .sumnist import SuMNIST
 from .textures import Textures
