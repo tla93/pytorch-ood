@@ -27,41 +27,29 @@ class RoadAnomaly(ImageDatasetBase):
     """
 
     root_dir_name = "RoadAnomaly"
-    subset_list = ["test"]
 
-    url_list = {
-        "test": "https://datasets-cvlab.epfl.ch/2019-road-anomaly/RoadAnomaly_jpg.zip",
-    }
+    url = "https://datasets-cvlab.epfl.ch/2019-road-anomaly/RoadAnomaly_jpg.zip"
 
-    filename_list = {
-        "test": ("RoadAnomaly_jpg.zip", "87a0908e5c72827824693913cf2e4fb0"),
-    }
+    filename = ("RoadAnomaly_jpg.zip", "87a0908e5c72827824693913cf2e4fb0")
 
     def __init__(
         self,
         root: str,
-        subset: str,
         transform: Optional[Callable[[Tuple], Tuple]] = None,
         download: bool = False,
     ) -> None:
         """
         :param root: root path for dataset
-        :param subset: only ``test`` is available yet
         :param transform: transformations to apply to images and masks, will get tuple as argument
         :param download: if dataset should be downloaded automatically
         """
         root = join(root, self.root_dir_name)
         super(ImageDatasetBase, self).__init__(root, transform=transform)
 
-        # self.base_folder = self.base_folders[subset]
-        self.url = self.url_list[subset]
-        self.filename, self.tgz_md5 = self.filename_list[subset]
+        self.filename, self.tgz_md5 = self.filename
 
         if download:
             self.download()
-
-        if subset not in self.subset_list:
-            raise ValueError(f"Invalid subset: {subset}")
 
         if not self._check_integrity():
             raise RuntimeError(

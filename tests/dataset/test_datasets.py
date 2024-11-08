@@ -59,7 +59,7 @@ class TestDatasetAvailability(unittest.TestCase):
         self.assertEqual(status, 200)
 
     def test_download_RoadAnomaly(self):
-        status = urlopen(RoadAnomaly.url_list["test"]).getcode()
+        status = urlopen(RoadAnomaly.url).getcode()
         self.assertEqual(status, 200)
 
     def test_download_SegmentMeIfYouCan(self):
