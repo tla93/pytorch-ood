@@ -5,8 +5,8 @@ RoadAnomaly
 We train a Feature Pyramid Segmentation model
 with a ResNet-50 backbone pre-trained on the ImageNet
 on the `Citiscapes <https://www.cityscapes-dataset.com/>`__ Dataset (please download  it before and put **gtFine** and **leftImg8bit** it into the **data/cityscapes** folder).
-As a test dataset, is possible to choose either the original :class:`RoadAnomaly<pytorch_ood.dataset.img.RoadAnomaly>` dataset or one of the :class:`SegmentMeIfYouCan<pytorch_ood.dataset.img.SegmentMeIfYouCan>` datasets: RoadAnomaly21 or RoadObstacles21.
-We then use the :class:`EnergyBased<pytorch_ood.detector.EnergyBased>` OOD detector.
+This model is evaluated using the :class:`EnergyBased<pytorch_ood.detector.EnergyBased>` OOD detector on the original :class:`RoadAnomaly<pytorch_ood.dataset.img.RoadAnomaly>` dataset or one of the :class:`SegmentMeIfYouCan<pytorch_ood.dataset.img.SegmentMeIfYouCan>` datasets: RoadAnomaly21 or RoadObstacles21.
+
 
 .. note :: Training with a batch-size of 4 requires slightly more than 12 GB of GPU memory.
     However, the models tend to also converge to reasonable performance with a smaller batch-size.
@@ -49,6 +49,16 @@ def my_transform(img, target):
     img = preprocess_input(img)
     img = torch.moveaxis(img, -1, 0)
 
+    # case image is not 1280x720
+    H, W = img.shape[-2:]
+    if H != 720 or W != 1280:
+        img = torch.nn.functional.interpolate(
+            img[None, ...], size=(720, 1280), mode="bilinear", align_corners=False
+        )[0]
+        target = torch.nn.functional.interpolate(
+            target[None, None, ...].float(), size=(720, 1280), mode="nearest"
+        )[0, 0].long()
+
     # size must be divisible by 32, so we pad the image.
     img = pad(img, [0, 8]).float()
     target = pad(target, [0, 8])
@@ -65,6 +75,25 @@ def cityscapes_transform(img, target):
     return my_transform(img, target)
 
 
+def eval(dataset_test, detector):
+    metrics = OODMetrics(mode="segmentation", void_label=1)
+    loader = DataLoader(dataset_test, batch_size=4, worker_init_fn=fix_random_seed, generator=g)
+
+    with torch.no_grad():
+        for n, (x, y) in enumerate(loader):
+            y, x = y.to(device), x.to(device)
+
+            o = detector(x)
+
+            # undo padding
+            o = pad(o, [0, -8])
+            y = pad(y, [0, -8])
+
+            metrics.update(o, y)
+
+    print(metrics.compute())
+
+
 # %%
 # Setup datasets
 
@@ -79,13 +108,13 @@ dataset = Cityscapes(
 )
 
 # Test datasets for RoadAnomaly
-dataset_test = RoadAnomaly(root="data", subset="test", transform=my_transform, download=True)
+dataset_test_roadanomaly_original = RoadAnomaly(root="data", transform=my_transform, download=True)
 
 # Test datasets for SegmentMeIfYouCan
-dataset_test_1 = SegmentMeIfYouCan(
+dataset_test_SMIYC_RoadAnomaly21 = SegmentMeIfYouCan(
     root="data", subset="RoadAnomaly21", transform=my_transform, download=True
 )
-dataset_test_2 = SegmentMeIfYouCan(
+dataset_test_SMIYC_RoadObstacle21 = SegmentMeIfYouCan(
     root="data", subset="RoadObstacle21", transform=my_transform, download=True
 )
 
@@ -101,8 +130,7 @@ model = smp.FPN(
 
 # %%
 # Train model for some epochs
-criterion = smp.losses.DiceLoss(mode="multiclass")
-# criterion = torch.nn.CrossEntropyLoss()
+criterion = torch.nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(params=model.parameters(), lr=0.0001)
 loader = DataLoader(
     dataset,
@@ -147,25 +175,21 @@ for epoch in range(num_epochs):
 # Evaluate
 print("Evaluating")
 model.eval()
-loader = DataLoader(dataset_test, batch_size=4, worker_init_fn=fix_random_seed, generator=g)
 detector = EnergyBased(model)
-metrics = OODMetrics(mode="segmentation", void_label=1)
 
-with torch.no_grad():
-    for n, (x, y) in enumerate(loader):
-        y, x = y.to(device), x.to(device)
+print("RoadAnomaly Original dataset")
+eval(dataset_test_roadanomaly_original, detector)
+print("SegmentMeIfYouCan RoadAnomaly21 dataset")
+eval(dataset_test_SMIYC_RoadAnomaly21, detector)
+print("SegmentMeIfYouCan RoadObstacle21 dataset")
+eval(dataset_test_SMIYC_RoadObstacle21, detector)
 
-        o = detector(x)
-
-        # undo padding
-        o = pad(o, [0, -8])
-        y = pad(y, [0, -8])
-        print(y.shape)
-
-        metrics.update(o, y)
-
-print(metrics.compute())
 
 # %%
 # Output:
-# {'AUROC': 0.5354963541030884, 'AUPR-IN': 0.9274818301200867, 'AUPR-OUT': 0.1202746108174324, 'FPR95TPR': 0.8663787245750427}
+# RoadAnomaly Original dataset
+# {'AUROC': 0.8061068058013916, 'AUPR-IN': 0.9695074558258057, 'AUPR-OUT': 0.3069896996021271, 'FPR95TPR': 0.4842188060283661}
+# SegmentMeIfYouCan RoadAnomaly21 dataset
+# {'AUROC': 0.8339249491691589, 'AUPR-IN': 0.9591774940490723, 'AUPR-OUT': 0.4169955849647522, 'FPR95TPR': 0.4986141324043274}
+# SegmentMeIfYouCan RoadObstacle21 dataset
+# {'AUROC': 0.8580262064933777, 'AUPR-IN': 0.9996278285980225, 'AUPR-OUT': 0.28497743606567383, 'FPR95TPR': 0.2309640794992447}

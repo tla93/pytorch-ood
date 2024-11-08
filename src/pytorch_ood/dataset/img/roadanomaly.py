@@ -76,8 +76,11 @@ class RoadAnomaly(ImageDatasetBase):
         for path in current_files:
             if path.endswith(".jpg"):
                 all_images.append(join(root, "frames", path))
-            elif os.path.isdir(join(root, "frames", path)):
-                all_masks.append(join(root, "frames", path, "labels_semantic.png"))
+                all_masks.append(
+                    join(
+                        root, "frames", f"{path.replace('.jpg','')}.labels", "labels_semantic.png"
+                    )
+                )
 
         assert len(all_images) == len(all_masks)
         if len(all_images) == 0:
