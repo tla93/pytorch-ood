@@ -5,7 +5,7 @@ RoadAnomaly
 We train a Feature Pyramid Segmentation model
 with a ResNet-50 backbone pre-trained on the ImageNet
 on the `Citiscapes <https://www.cityscapes-dataset.com/>`__ Dataset (please download  it before and put **gtFine** and **leftImg8bit** it into the **data/cityscapes** folder).
-This model is evaluated using the :class:`EnergyBased<pytorch_ood.detector.EnergyBased>` OOD detector on the original :class:`RoadAnomaly<pytorch_ood.dataset.img.RoadAnomaly>` dataset or one of the :class:`SegmentMeIfYouCan<pytorch_ood.dataset.img.SegmentMeIfYouCan>` datasets: RoadAnomaly21 or RoadObstacles21.
+This model is evaluated using the :class:`EnergyBased<pytorch_ood.detector.EnergyBased>` OOD detector on the original :class:`RoadAnomaly<pytorch_ood.dataset.img.RoadAnomaly>` dataset and both datasets of the :class:`SegmentMeIfYouCan<pytorch_ood.dataset.img.SegmentMeIfYouCan>` benchmark: RoadAnomaly21 and RoadObstacles21.
 
 
 .. note :: Training with a batch-size of 4 requires slightly more than 12 GB of GPU memory.
