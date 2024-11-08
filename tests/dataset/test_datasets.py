@@ -11,6 +11,8 @@ from src.pytorch_ood.dataset.img import (
     ImageNetO,
     ImageNetR,
     MVTechAD,
+    RoadAnomaly,
+    SegmentMeIfYouCan,
     StreetHazards,
 )
 from src.pytorch_ood.dataset.txt import (
@@ -54,6 +56,16 @@ class TestDatasetAvailability(unittest.TestCase):
     # @unittest.skip("Unavailable")
     def test_download_MNISTC(self):
         status = urlopen(MNISTC.urls[0]).getcode()
+        self.assertEqual(status, 200)
+
+    def test_download_RoadAnomaly(self):
+        status = urlopen(RoadAnomaly.url).getcode()
+        self.assertEqual(status, 200)
+
+    def test_download_SegmentMeIfYouCan(self):
+        status = urlopen(SegmentMeIfYouCan.url_list["RoadAnomaly21"]).getcode()
+        self.assertEqual(status, 200)
+        status = urlopen(SegmentMeIfYouCan.url_list["RoadObstacle21"]).getcode()
         self.assertEqual(status, 200)
 
     def test_download_StreetHazards(self):
