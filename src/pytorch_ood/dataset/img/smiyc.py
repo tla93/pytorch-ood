@@ -134,7 +134,7 @@ class SegmentMeIfYouCan(ImageDatasetBase):
         target[target == 255] = -10  # -10 labels for ignore
         # all values above 0 are outliers
         target[target > 0] = -1  # negative labels for outliers
-        # set void to 255
+        # set void labels
         target[target == -10] = self.VOID_LABEL  # void labels for ignore
 
         if self.transform is not None:

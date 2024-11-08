@@ -114,11 +114,8 @@ class RoadAnomaly(ImageDatasetBase):
         # to return a PIL Image
         img = Image.open(file)
         target = to_tensor(Image.open(target)).squeeze(0)
-        target[target == 255] = -10  # -10 labels for ignore
         # all values above 0 are outliers
         target[target > 0] = -1  # negative labels for outliers
-        # set void to 255
-        target[target == -10] = 255  # 255 labels for ignore
 
         if self.transform is not None:
             img, target = self.transform(img, target)
