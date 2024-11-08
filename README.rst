@@ -218,6 +218,10 @@ The package can be installed via PyPI:
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
 | ImageNet - A, O, R    | Different Outlier Variants for the ImageNet.                                                                    | 2019 | [#ImageNets]_ |
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
+| RoadAnomaly           | A dataset with unusual dangers on the road.                                                                      | 2019 | [#RoadAno]_   |
++-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
+| SegmentMeIfYouCan     | A dataset with unusual dangers or obstacles on the road.                                                                      | 2021 | [#SMIYC]_     |
++-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
 | iNaturalist           | A Subset of iNaturalist, with 10.000 images.                                                                    | 2021 | [#INatural]_  |
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
 | Fractals              | A dataset with Fractals from *PIXMIX: Dreamlike Pictures Comprehensively Improve Safety Measures*               | 2022 | [#PixMix]_    |
@@ -341,6 +345,10 @@ The legal implications of using pre-trained models in commercial services are, t
 .. [#ImageNets] Hendrycks, D., Zhao, K., Basart, S., Steinhardt, J., & Song, D. (2021). Natural adversarial examples. CVPR.
 
 .. [#MnistC] Mu, N., & Gilmer, J. (2019). MNIST-C: A robustness benchmark for computer vision. ICLR Workshop.
+
+.. [#RoadAno] Lis, K. et al (2019) Detecting the Unexpected via Image Resynthesis. ICCV
+
+.. [#SMIYC] Chan, R. et al (2021) SegmentMeIfYouCan: A Benchmark for Anomaly Segmentation. NeurIPS
 
 .. [#FS] Blum, H. et al (2021) The Fishyscapes Benchmark: Measuring Blind Spots in Semantic Segmentation. IJCV
 
