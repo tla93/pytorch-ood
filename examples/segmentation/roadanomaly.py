@@ -1,10 +1,11 @@
 """
-StreetHazards
+RoadAnomaly
 -------------------------
 
 We train a Feature Pyramid Segmentation model
 with a ResNet-50 backbone pre-trained on the ImageNet
-on the :class:`StreetHazards<pytorch_ood.dataset.img.StreetHazards>`.
+on the `Citiscapes <https://www.cityscapes-dataset.com/>`__ Dataset (please download  it before and put **gtFine** and **leftImg8bit** it into the **data/cityscapes** folder).
+As a test dataset, is possible to choose either the original :class:`RoadAnomaly<pytorch_ood.dataset.img.RoadAnomaly>` dataset or one of the :class:`SegmentMeIfYouCan<pytorch_ood.dataset.img.SegmentMeIfYouCan>` datasets: RoadAnomaly21 or RoadObstacles21.
 We then use the :class:`EnergyBased<pytorch_ood.detector.EnergyBased>` OOD detector.
 
 .. note :: Training with a batch-size of 4 requires slightly more than 12 GB of GPU memory.
@@ -13,10 +14,6 @@ We then use the :class:`EnergyBased<pytorch_ood.detector.EnergyBased>` OOD detec
 .. warning :: The results produced by this script vary. It is impossible to ensure the
     reproducibility of the exact numerical values at the moment, because the model includes operations for
     which no deterministic implementation exists at the time of writing.
-
-.. note :: The license of the model originally used for the street hazards dataset
-    is not compatible with ``pytorch-ood``. This prevents us from re-using the implementation
-    from the original repository.
 
 """
 import segmentation_models_pytorch as smp
@@ -68,12 +65,11 @@ def cityscapes_transform(img, target):
     return my_transform(img, target)
 
 
-# Please Download Citiscapes Dataset, for example, from https://www.cityscapes-dataset.com/ or https://github.com/mcordts/cityscapesScripts/blob/master/cityscapesscripts/download/downloader.py
-# and put it in the data folder
-
-
 # %%
 # Setup datasets
+
+# Please download Citiscapes Dataset, for example, from https://www.cityscapes-dataset.com/ or https://github.com/mcordts/cityscapesScripts/blob/master/cityscapesscripts/download/downloader.py
+# and put it in the data/cityscapes folder
 dataset = Cityscapes(
     root="data/cityscapes",
     split="train",
@@ -82,6 +78,7 @@ dataset = Cityscapes(
     target_type="semantic",
 )
 
+# Test datasets for RoadAnomaly
 dataset_test = RoadAnomaly(root="data", subset="test", transform=my_transform, download=True)
 
 # Test datasets for SegmentMeIfYouCan
@@ -152,7 +149,7 @@ print("Evaluating")
 model.eval()
 loader = DataLoader(dataset_test, batch_size=4, worker_init_fn=fix_random_seed, generator=g)
 detector = EnergyBased(model)
-metrics = OODMetrics(mode="segmentation", void_label=255)
+metrics = OODMetrics(mode="segmentation", void_label=1)
 
 with torch.no_grad():
     for n, (x, y) in enumerate(loader):

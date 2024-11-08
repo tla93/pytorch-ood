@@ -17,6 +17,8 @@ class SegmentMeIfYouCan(ImageDatasetBase):
 
     From the paper *SegmentMeIfYouCan: A Benchmark for Anomaly Segmentation*. Contains two subsets: RoadAnomaly21 and RoadObstacle21
 
+    .. note:: Similar to Paper *Segment Every Out-of-Distribution Object* (`ArXiv <https://arxiv.org/pdf/2311.16516v3>`__, `Github <https://github.com/WenjieZhao1/S2M>`__) for ``RoadAnomaly21`` only **10** and for ``RoadObstacle21`` only **30** images are available.
+
 
     :see Paper: `ArXiv <https://arxiv.org/pdf/2104.14812>`__
     :see Website: `Website <https://segmentmeifyoucan.com/datasets>`__
@@ -41,6 +43,7 @@ class SegmentMeIfYouCan(ImageDatasetBase):
         "RoadAnomaly21": ("dataset_AnomalyTrack.zip", "231bf79ed58924bcd33d9cbe22e61076"),
         "RoadObstacle21": ("dataset_ObstacleTrack.zip", "895fb36d18765482cc291f69e63d6da6"),
     }
+    VOID_LABEL = 1  #: void label, should be ignored during score calculation
 
     def __init__(
         self,
@@ -51,7 +54,7 @@ class SegmentMeIfYouCan(ImageDatasetBase):
     ) -> None:
         """
         :param root: root path for dataset
-        :param subset: one of ``train``, ``test``, ``validation``
+        :param subset: one of ``RoadAnomaly21``, ``RoadObstacle21``
         :param transform: transformations to apply to images and masks, will get tuple as argument
         :param download: if dataset should be downloaded automatically
         """
@@ -132,7 +135,7 @@ class SegmentMeIfYouCan(ImageDatasetBase):
         # all values above 0 are outliers
         target[target > 0] = -1  # negative labels for outliers
         # set void to 255
-        target[target == -10] = 255  # 255 labels for ignore
+        target[target == -10] = self.VOID_LABEL  # void labels for ignore
 
         if self.transform is not None:
             img, target = self.transform(img, target)

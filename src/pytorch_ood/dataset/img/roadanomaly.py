@@ -15,7 +15,7 @@ class RoadAnomaly(ImageDatasetBase):
     """
     Benchmark Dataset for Anomaly Segmentation.
 
-    From the paper *Detecting the Unexpected via Image Resynthesis*
+    From the paper *Detecting the Unexpected via Image Resynthesis*.
 
     .. image:: https://www.epfl.ch/labs/cvlab/wp-content/uploads/2019/10/road_anomaly_gt_contour-1024x576.jpg
         :width: 800px
@@ -46,7 +46,7 @@ class RoadAnomaly(ImageDatasetBase):
     ) -> None:
         """
         :param root: root path for dataset
-        :param subset: one of ``train``, ``test``, ``validation``
+        :param subset: only ``test`` is available yet
         :param transform: transformations to apply to images and masks, will get tuple as argument
         :param download: if dataset should be downloaded automatically
         """
