@@ -263,7 +263,7 @@ The package can be installed via PyPI:
 +-------------+---------------------------------------------------------------------------------------------------------------------------+------+-----------------+
 | WikiText103 | Texts from the wikipedia often used as auxiliary OOD training data.                                                       | 2016 | [#WikiText2]_   |
 +-------------+---------------------------------------------------------------------------------------------------------------------------+------+-----------------+
-| NewsGroup20 | Textx from different newsgroups, as used by Hendrycks et al. in the OOD baseline paper.                                   |      |                 |
+| NewsGroup20 | Texts from different newsgroups, as used by Hendrycks et al. in the OOD baseline paper.                                   |      |                 |
 +-------------+---------------------------------------------------------------------------------------------------------------------------+------+-----------------+
 
 
