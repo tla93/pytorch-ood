@@ -100,11 +100,39 @@ def fpr_at_tpr(pred, target, k=0.95):
     return fpr[idx]
 
 
+def binary_clf_curve(y_true, y_score, pos_label=1):
+    """
+    Calculate the False Positive Rate at a certain True Positive Rate.
+    Args:
+        :param pred: predicted scores for each sample
+        :param target: ground truth labels
+        :param pos_label: positive labels 1 or 0
+    :return: Tuple containing:
+        - fpr: False Positive Rate values
+        - tpr: True Positive Rate values
+        - thresholds: Thresholds used to calculate FPR and TPR.
+    """
+    y_true = (y_true == pos_label).long()
+
+    # all scores must be between 0 and 1
+    y_score = (y_score - y_score.min()) / (y_score.max() - y_score.min())
+
+    fpr, tpr, thresholds = binary_roc(y_score, y_true)
+
+    # add 0 to FPR and TPR
+    fpr = torch.cat([torch.tensor([0.0]), fpr])
+    tpr = torch.cat([torch.tensor([0.0]), tpr])
+    thresholds = torch.cat([torch.tensor([1.0]), thresholds])
+
+    return fpr, tpr, thresholds
+
+
 class OODMetrics(object):
     """
     Calculates various metrics used in OOD detection experiments.
 
     - AUROC
+    - AUTC `ArXiv <https://arxiv.org/pdf/2306.14658>`__
     - AUPR IN
     - AUPR OUT
     - FPR\\@95TPR
@@ -204,6 +232,11 @@ class OODMetrics(object):
 
         auroc = binary_auroc(scores, labels)
 
+        fpr_values, tpr_values, thresholds_values = binary_clf_curve(labels, scores, pos_label=1)
+        aufpr = auc(thresholds_values, fpr_values)
+        aufnr = auc(thresholds_values, 1 - tpr_values)
+        autc = (aufpr + aufnr) / 2
+
         # num_classes=None for binary
         p, r, t = binary_precision_recall_curve(scores, labels)
         aupr_out = auc(r, p)
@@ -215,6 +248,7 @@ class OODMetrics(object):
 
         return {
             "AUROC": auroc.cpu(),
+            "AUTC": autc.cpu(),
             "AUPR-IN": aupr_in.cpu(),
             "AUPR-OUT": aupr_out.cpu(),
             "FPR95TPR": fpr.cpu(),
