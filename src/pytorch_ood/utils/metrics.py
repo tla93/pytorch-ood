@@ -120,9 +120,9 @@ def binary_clf_curve(y_true, y_score, pos_label=1):
     fpr, tpr, thresholds = binary_roc(y_score, y_true)
 
     # add 0 to FPR and TPR
-    fpr = torch.cat([torch.tensor([0.0]), fpr])
-    tpr = torch.cat([torch.tensor([0.0]), tpr])
-    thresholds = torch.cat([torch.tensor([1.0]), thresholds])
+    fpr = torch.cat([torch.tensor([0.0], device=fpr.device), fpr])
+    tpr = torch.cat([torch.tensor([0.0], device=tpr.device), tpr])
+    thresholds = torch.cat([torch.tensor([1.0], device=thresholds.device), thresholds])
 
     return fpr, tpr, thresholds
 
@@ -131,11 +131,11 @@ class OODMetrics(object):
     """
     Calculates various metrics used in OOD detection experiments.
 
-    - AUROC
-    - AUTC `ArXiv <https://arxiv.org/pdf/2306.14658>`__
-    - AUPR IN
-    - AUPR OUT
-    - FPR\\@95TPR
+    - AUROC (see `ArXiv <https://arxiv.org/pdf/1610.02136>`__ or `ArXiv <https://arxiv.org/pdf/1706.02690>`__ for more information)
+    - AUTC (see `ArXiv <https://arxiv.org/pdf/2306.14658>`__ for more information)
+    - AUPR IN (see `ArXiv <https://arxiv.org/pdf/1610.02136>`__ or `ArXiv <https://arxiv.org/pdf/1706.02690>`__ for more information)
+    - AUPR OUT (see `ArXiv <https://arxiv.org/pdf/1610.02136>`__ or `ArXiv <https://arxiv.org/pdf/1706.02690>`__ for more information)
+    - FPR\\@95TPR (see `ArXiv <https://arxiv.org/pdf/1706.02690>`__ for more information)
 
     The interface is similar to ``torchmetrics``.
 
