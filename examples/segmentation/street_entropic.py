@@ -131,8 +131,8 @@ with torch.no_grad():
         o = detector(x)
 
         # undo padding
-        o = pad(o, [-8, -8])
-        y = pad(y, [-8, -8])
+        o = pad(o, [0, -8])
+        y = pad(y, [0, -8])
 
         metrics.update(o, y)
 
@@ -141,4 +141,4 @@ print(metrics.compute())
 
 # %%
 # Output:
-#   {'AUROC': 0.9705050587654114, 'AUPR-IN': 0.3917403519153595, 'AUPR-OUT': 0.9997314214706421, 'FPR95TPR': 0.10926716774702072}
+#   {'AUROC': 0.9723486304283142, 'AUTC': 0.18688912689685822, 'AUPR-IN': 0.9997672438621521, 'AUPR-OUT': 0.3950905501842499, 'FPR95TPR': 0.10427632927894592}

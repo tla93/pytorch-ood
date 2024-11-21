@@ -58,12 +58,8 @@ def my_transform(img, target):
 
 # %%
 # Setup datasets
-dataset = StreetHazards(
-    root="data", subset="train", transform=my_transform, download=True
-)
-dataset_test = StreetHazards(
-    root="data", subset="test", transform=my_transform, download=True
-)
+dataset = StreetHazards(root="data", subset="train", transform=my_transform, download=True)
+dataset_test = StreetHazards(root="data", subset="test", transform=my_transform, download=True)
 
 
 # %%
@@ -122,9 +118,7 @@ for epoch in range(num_epochs):
 # Evaluate
 print("Evaluating")
 model.eval()
-loader = DataLoader(
-    dataset_test, batch_size=4, worker_init_fn=fix_random_seed, generator=g
-)
+loader = DataLoader(dataset_test, batch_size=4, worker_init_fn=fix_random_seed, generator=g)
 detector = EnergyBased(model)
 metrics = OODMetrics(mode="segmentation")
 
@@ -134,8 +128,8 @@ with torch.no_grad():
         o = detector(x)
 
         # undo padding
-        o = pad(o, [-8, -8])
-        y = pad(y, [-8, -8])
+        o = pad(o, [0, -8])
+        y = pad(y, [0, -8])
 
         metrics.update(o, y)
 
@@ -143,4 +137,4 @@ print(metrics.compute())
 
 # %%
 # Output:
-#   {'AUROC': 0.8069181442260742, 'AUPR-IN': 0.07396415621042252, 'AUPR-OUT': 0.9966945648193359, 'FPR95TPR': 0.7595465183258057}
+#   {'AUROC': 0.8192962408065796, 'AUTC': 0.4227757453918457, 'AUPR-IN': 0.9970351457595825, 'AUPR-OUT': 0.0904872715473175, 'FPR95TPR': 0.5743579268455505}
