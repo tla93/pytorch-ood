@@ -77,5 +77,5 @@ class Entropy(Detector):
         """
         :param logits: logits of input
         """
-        p = logits.softmax(dim=1)
+        p = logits.softmax(dim=1).clip(1e-7, 1)
         return -(p.log() * p).sum(dim=1)
