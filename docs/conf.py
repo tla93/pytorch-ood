@@ -54,6 +54,7 @@ sphinx_gallery_conf = {
         "../examples/segmentation",
         "../examples/text",
         "../examples/osr",
+        "../examples/metrics",
     ],
     # path to where to save gallery generated output,
     "gallery_dirs": [
@@ -63,6 +64,7 @@ sphinx_gallery_conf = {
         "auto_examples/segmentation",
         "auto_examples/text",
         "auto_examples/osr",
+        "auto_examples/metrics",
     ],
     "nested_sections": False,
     "line_numbers": True,

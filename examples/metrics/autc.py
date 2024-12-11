@@ -1,5 +1,5 @@
 """
-Metrics
+AUTC
 -------------------------
 
 Historgram and Metrics for random scores with different delta.
@@ -30,7 +30,7 @@ in_scores = torch.rand(in_sampels_num * offset)
 out_scores = torch.rand(out_sampels_num * offset)
 
 # %%
-# define function
+# Define function
 
 
 def metricsandplots(in_scores, out_scores, delta, name):
@@ -64,6 +64,6 @@ def metricsandplots(in_scores, out_scores, delta, name):
 
 
 # %%
-# plot and calculate metrics
+# Plot and calculate metrics
 metricsandplots(in_scores, out_scores, near_delta, "Near")
 metricsandplots(in_scores, out_scores, far_delta, "Far")
