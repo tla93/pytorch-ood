@@ -308,37 +308,37 @@ The legal implications of using pre-trained models in commercial services are, t
 
 .. [#OpenMax]  Bendale, A., & Boult, T. E. (2016). Towards open set deep networks. CVPR.
 
-.. [#ODIN] Liang, S., Li, Y., & Srikant, R. (2017). Enhancing the reliability of out-of-distribution image detection in neural networks. ICLR.
+.. [#ODIN] Liang, S., et al. (2017). Enhancing the reliability of out-of-distribution image detection in neural networks. ICLR.
 
-.. [#Mahalanobis] Lee, K., Lee, K., Lee, H., & Shin, J. (2018). A simple unified framework for detecting out-of-distribution samples and adversarial attacks. NeurIPS.
+.. [#Mahalanobis] Lee, K., et al. (2018). A simple unified framework for detecting out-of-distribution samples and adversarial attacks. NeurIPS.
 
 .. [#MonteCarloDrop] Gal, Y., & Ghahramani, Z. (2016). Dropout as a bayesian approximation: Representing model uncertainty in deep learning. ICML.
 
 .. [#Softmax] Hendrycks, D., & Gimpel, K. (2016). A baseline for detecting misclassified and out-of-distribution examples in neural networks. ICLR.
 
-.. [#TempScaling] Guo, C., Pleiss, G., Sun, Y., & Weinberger, K. (2017). On calibration of modern neural networks. ICML.
+.. [#TempScaling] Guo, C., et al. (2017). On calibration of modern neural networks. ICML.
 
 .. [#ConfidenceLoss] DeVries, T., & Taylor, G. W. (2018). Learning confidence for out-of-distribution detection in neural networks. `ArXiv <https://arxiv.org/pdf/1802.04865>`_
 
-.. [#EnergyBasedOOD] Liu, W., Wang, X., Owens, J., & Li, Y. (2020). Energy-based out-of-distribution detection. NeurIPS.
+.. [#EnergyBasedOOD] Liu, W., et al. (2020). Energy-based out-of-distribution detection. NeurIPS.
 
-.. [#Objectosphere] Dhamija, A. R., Günther, M., & Boult, T. (2018). Reducing network agnostophobia. NeurIPS.
+.. [#Objectosphere] Dhamija, A. R., et al. (2018). Reducing network agnostophobia. NeurIPS.
 
 .. [#OE] Hendrycks, D., Mazeika, M., & Dietterich, T. (2018). Deep anomaly detection with outlier exposure. ICLR.
 
-.. [#SVDD] Ruff, L.,  et al. (2018). Deep one-class classification. ICML.
+.. [#SVDD] Ruff, L., et al. (2018). Deep one-class classification. ICML.
 
 .. [#IILoss] Hassen, M., & Chan, P. K. (2020). Learning a neural-network-based representation for open set recognition. SDM.
 
-.. [#CACLoss] Miller, D., Sunderhauf, N., Milford, M., & Dayoub, F. (2021). Class anchor clustering: A loss for distance-based open set recognition. WACV.
+.. [#CACLoss] Miller, D., et al. (2021). Class anchor clustering: A loss for distance-based open set recognition. WACV.
 
-.. [#CenterLoss] Wen, Y., Zhang, K., Li, Z., & Qiao, Y. (2016). A discriminative feature learning approach for deep face recognition. ECCV.
+.. [#CenterLoss] Wen, Y., et al. (2016). A discriminative feature learning approach for deep face recognition. ECCV.
 
 .. [#Cifar10] Hendrycks, D., & Dietterich, T. (2019). Benchmarking neural network robustness to common corruptions and perturbations. ICLR.
 
-.. [#FImages] Nguyen, A., Yosinski, J., & Clune, J. (2015). Deep neural networks are easily fooled: High confidence predictions for unrecognizable images. CVPR.
+.. [#FImages] Nguyen, A., et al. (2015). Deep neural networks are easily fooled: High confidence predictions for unrecognizable images. CVPR.
 
-.. [#ImageNets] Hendrycks, D., Zhao, K., Basart, S., Steinhardt, J., & Song, D. (2021). Natural adversarial examples. CVPR.
+.. [#ImageNets] Hendrycks, D., et al. (2021). Natural adversarial examples. CVPR.
 
 .. [#MnistC] Mu, N., & Gilmer, J. (2019). MNIST-C: A robustness benchmark for computer vision. ICLR Workshop.
 
@@ -346,31 +346,31 @@ The legal implications of using pre-trained models in commercial services are, t
 
 .. [#MVTech] Bergmann, P. et al (2021) The MVTec Anomaly Detection Dataset: A Comprehensive Real-World Dataset for Unsupervised Anomaly Detection. IJCV
 
-.. [#StreeHaz] Hendrycks, D., Basart, S., Mazeika, M., Mostajabi, M., Steinhardt, J., & Song, D. (2022). Scaling out-of-distribution detection for real-world settings. ICML.
+.. [#StreeHaz] Hendrycks, D., et al. (2022). Scaling out-of-distribution detection for real-world settings. ICML.
 
-.. [#CifarGAN] Kirchheim, K., Ortmeier, F. (2022) On Outlier Exposure with Generative Models. NeurIPS
+.. [#CifarGAN] Kirchheim, K., & Ortmeier, F. (2022) On Outlier Exposure with Generative Models. NeurIPS
 
 .. [#NINCO] Bitterwolf, J., et al. (2023) In or Out? Fixing ImageNet Out-of-Distribution Detection Evaluation. ICML
 
 .. [#SuMNIST] Kirchheim, K. (2023) Towards Deep Anomaly Detection with Structured Knowledge Representations. SAFECOMP
 
-.. [#Textures] Cimpoi, M., Maji, S., Kokkinos, I., Mohamed, S., & Vedaldi, A. (2014). Describing textures in the wild. CVPR.
+.. [#Textures] Cimpoi, M., et al. (2014). Describing textures in the wild. CVPR.
 
-.. [#TinyImgs] Torralba, A., Fergus, R., & Freeman, W. T. (2007). 80 million tiny images: a large dataset for non-parametric object and scene recognition. IEEE Transactions on Pattern Analysis and Machine Learning.
+.. [#TinyImgs] Torralba, A., et al. (2007). 80 million tiny images: a large dataset for non-parametric object and scene recognition. IEEE Transactions on Pattern Analysis and Machine Learning.
 
 .. [#Chars74k] de Campos, T. E., et al. (2009). Character recognition in natural images. In Proceedings of the International Conference on Computer Vision Theory and Applications (VISAPP).
 
-.. [#Multi30k] Elliott, D., Frank, S., Sima'an, K., & Specia, L. (2016). Multi30k: Multilingual english-german image descriptions. Proceedings of the 5th Workshop on Vision and Language.
+.. [#Multi30k] Elliott, D., et al. (2016). Multi30k: Multilingual english-german image descriptions. Proceedings of the 5th Workshop on Vision and Language.
 
-.. [#WikiText2] Merity, S., Xiong, C., Bradbury, J., & Socher, R. (2016). Pointer sentinel mixture models. `ArXiv <https://arxiv.org/abs/1609.07843>`_
+.. [#WikiText2] Merity, S., et al. (2016). Pointer sentinel mixture models. `ArXiv <https://arxiv.org/abs/1609.07843>`_
 
-.. [#INatural] Huang, R., Li, Y. (2021) MOS: Towards Scaling Out-of-distribution Detection for Large Semantic Space. CVPR
+.. [#INatural] Huang, R., & Li, Y. (2021) MOS: Towards Scaling Out-of-distribution Detection for Large Semantic Space. CVPR
 
-.. [#MCHAD] Kirchheim, K., Filax, M., Ortmeier, F. (2022) Multi Class Hypersphere Anomaly Detection. ICPR
+.. [#MCHAD] Kirchheim, K., et al. (2022) Multi Class Hypersphere Anomaly Detection. ICPR
 
-.. [#ViM] Wang, H., Li, Z., Feng, L., Zhang, W. (2022) ViM: Out-Of-Distribution with Virtual-logit Matching. CVPR
+.. [#ViM] Wang, H., et al. (2022) ViM: Out-Of-Distribution with Virtual-logit Matching. CVPR
 
-.. [#WEBO] Du, X., Wang, Z., Cai, M., Li, Y. (2022) VOS: Learning What You Don't Know by Virtual Outlier Synthesis. ICLR
+.. [#WEBO] Du, X., et al. (2022) VOS: Learning What You Don't Know by Virtual Outlier Synthesis. ICLR
 
 .. [#kNN] Sun, Y., et al. (2022) Out-of-Distribution Detection with Deep Nearest Neighbors. ICML
 
