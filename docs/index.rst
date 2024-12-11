@@ -41,6 +41,7 @@ nomenclature, and structured API documentation.
    auto_examples/segmentation/index
    auto_examples/text/index
    auto_examples/osr/index
+   auto_examples/metrics/index
 
 
 Indices and tables
