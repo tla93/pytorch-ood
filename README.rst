@@ -203,6 +203,8 @@ The package can be installed via PyPI:
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
 | FoolingImages         | OOD Images Generated to fool certain Deep Neural Networks.                                                      | 2015 | [#FImages]_   |
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
+| Tiny ImageNet         | A derived version of ImageNet with 64x64-sized images.                                                          | 2015 | [#TinyIN]_    |
++-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
 | TinyImages300k        | A cleaned version of the TinyImages Dataset with 300.000 images, often used as auxiliary OOD training data.     | 2018 | [#OE]_        |
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
 | LSUN                  | A version of the Large-scale Scene UNderstanding Dataset with 10.000 images, often used as auxiliary            | 2018 | [#ODIN]_      |
@@ -337,6 +339,8 @@ The legal implications of using pre-trained models in commercial services are, t
 .. [#Cifar10] Hendrycks, D., & Dietterich, T. (2019). Benchmarking neural network robustness to common corruptions and perturbations. ICLR.
 
 .. [#FImages] Nguyen, A., et al. (2015). Deep neural networks are easily fooled: High confidence predictions for unrecognizable images. CVPR.
+
+.. [#TinyIN] Le, Y., et al. (2015). Tiny ImageNet Visual Recognition Challenge. `Stanford <https://cs231n.stanford.edu/reports/2015/pdfs/yle_project.pdf>`_
 
 .. [#ImageNets] Hendrycks, D., et al. (2021). Natural adversarial examples. CVPR.
 
