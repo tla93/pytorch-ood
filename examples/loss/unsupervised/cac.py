@@ -32,10 +32,10 @@ device = "cuda:0"
 
 trans = WideResNet.transform_for("imagenet32-nocifar")
 
-# setup IN training data
+# setup ID training data
 dataset_in_train = CIFAR10(root="data", train=True, download=True, transform=trans)
 
-# setup IN test data
+# setup ID test data
 dataset_in_test = CIFAR10(root="data", train=False, transform=trans)
 
 # setup OOD test data, use ToUnknown() to mark labels as OOD

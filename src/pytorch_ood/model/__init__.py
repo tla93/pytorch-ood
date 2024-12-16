@@ -5,7 +5,7 @@ Models
 Frequently used Neural Network based Models
 
 
-Computer Vision
+Vision
 ==================
 
 Wide ResNet
@@ -14,7 +14,7 @@ Wide ResNet
 ..  autoclass:: pytorch_ood.model.WideResNet
     :members:
 
-Natural Language Processing
+Language
 ==============================
 
 GRU Classifier

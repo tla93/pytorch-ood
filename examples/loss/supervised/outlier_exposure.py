@@ -33,16 +33,16 @@ device = "cuda:0"
 # Setup preprocessing and data
 trans = tvt.Compose([tvt.Resize(size=(32, 32)), tvt.ToTensor()])
 
-# setup IN training data
+# setup ID training data
 dataset_in_train = CIFAR10(root="data", train=True, download=True, transform=trans)
 
 # setup OOD training data, use ToUnknown() to mark labels as OOD
-# this way, outlier exposure can automatically decide if the training samples are IN or OOD
+# this way, outlier exposure can automatically decide if the training samples are ID or OOD
 dataset_out_train = TinyImages300k(
     root="data", download=True, transform=trans, target_transform=ToUnknown()
 )
 
-# setup IN test data
+# setup ID test data
 dataset_in_test = CIFAR10(root="data", train=False, transform=trans)
 
 # setup OOD test data, use ToUnknown() to mark labels as OOD

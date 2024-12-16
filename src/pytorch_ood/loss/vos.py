@@ -16,7 +16,7 @@ class VOSRegLoss(nn.Module):
     Implements a loss function, that is inspired by the loss function from  *VOS: Learning what you don’t know by virtual outlier synthesis* without the synthesising of virtual outlier.
 
     Adds a regularization term to the cross-entropy that aims to increase the (weighted) energy gap between
-    IN and OOD samples.
+    ID and OOD samples.
 
     The regularization term is defined as:
 
@@ -156,7 +156,7 @@ class VirtualOutlierSynthesizingRegLoss(VOSRegLoss):
     Implements the loss function of  *VOS: Learning what you don’t know by virtual outlier synthesis* with the synthesising of virtual outlier.
 
     Adds a regularization term to the cross-entropy that aims to increase the (weighted) energy gap between
-    IN and OOD samples (which are synthesised from the IN data).
+    ID and OOD samples (which are synthesised from the ID data).
 
     For more information see :class:`VOS Energy-Based Loss<pytorch_ood.loss.vos.VOSRegLoss>` and the paper.
 

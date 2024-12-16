@@ -8,7 +8,7 @@ SVDD places a single center :math:`\\mu` in the output space of a model :math:`f
 During training, the parameters  :math:`\\theta` are adjusted to minimize the (squared) sum of the distances of
 representations :math:`f_{\\theta}(x)` to this center.
 Thus, the model is trained to map the training samples close to the center.
-The idea is that the model learns to map **only** IN samples close to the center, and not OOD samples.
+The idea is that the model learns to map **only** ID samples close to the center, and not OOD samples.
 The distance to the center can be used as outlier score.
 
 We test the model against FashionMNIST.

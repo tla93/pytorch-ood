@@ -50,15 +50,15 @@ batch_size = 256
 
 trans = WideResNet.transform_for("imagenet32-nocifar")
 
-# setup IN training data
+# setup ID training data
 data_in_train = CIFAR10(root=data_root, train=True, download=True, transform=trans)
 
-# setup OOD training data, same size as IN training data
+# setup OOD training data, same size as ID training data
 tiny300k = TinyImages300k(
     root=data_root, download=True, transform=trans, target_transform=ToUnknown()
 )
 
-# setup IN test data
+# setup ID test data
 data_in_test = CIFAR10(root=data_root, train=False, transform=trans)
 
 # setup OOD test data, use ToUnknown() to mark labels as OOD

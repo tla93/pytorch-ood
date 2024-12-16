@@ -3,7 +3,7 @@
 
 Classification
 ----------------------
-Contains datasets often used in anomaly Detection, where the entire input is labels as either IN or OOD.
+Contains datasets often used in anomaly Detection, where the entire input is labels as either ID or OOD.
 
 Textures
 ``````````````````````````

@@ -311,7 +311,7 @@ def extract_feature_avg(
                 buffer.append("label", y[known])
 
         if buffer.is_empty():
-            raise ValueError("No IN instances in loader")
+            raise ValueError("No ID instances in loader")
 
     z = buffer.get("embedding")
     y = buffer.get("label")
@@ -345,20 +345,25 @@ def extract_features(
                 buffer.append("label", y[known])
 
         if buffer.is_empty():
-            raise ValueError("No IN instances in loader")
+            raise ValueError("No ID instances in loader")
 
     z = buffer.get("embedding")
     y = buffer.get("label")
     return z, y
 
-def to_np(x: Tensor): return x.data.cpu().numpy()
+
+def to_np(x: Tensor):
+    return x.data.cpu().numpy()
+
 
 def evaluate_energy_logistic_loss(
-    model: Callable[[Tensor], Tensor], train_loader_in: DataLoader, logistic_regression: Callable[[Tensor], Tensor]
+    model: Callable[[Tensor], Tensor],
+    train_loader_in: DataLoader,
+    logistic_regression: Callable[[Tensor], Tensor],
 ) -> Tuple[floating, floating, floating]:
     """
     Evaluate energy logistic loss on ID training dataset
-    
+
     :param model: neural network to pass inputs to
     :param train_loader_in: dataset to extract from
     :param logistic_regression: logistic regression layer
@@ -385,19 +390,19 @@ def evaluate_energy_logistic_loss(
         binary_labels_1 = torch.ones(len(data)).cuda()
 
         # compute in distribution logistic losses
-        logistic_loss_energy_in = F.binary_cross_entropy_with_logits(logistic_regression(
-            Ec_in.unsqueeze(1)).squeeze(), binary_labels_1, reduction='none')
+        logistic_loss_energy_in = F.binary_cross_entropy_with_logits(
+            logistic_regression(Ec_in.unsqueeze(1)).squeeze(), binary_labels_1, reduction="none"
+        )
 
         logistic_energy_losses.extend(list(to_np(logistic_loss_energy_in)))
 
         # compute in distribution sigmoid losses
-        sigmoid_loss_energy_in = torch.sigmoid(logistic_regression(
-            Ec_in.unsqueeze(1)).squeeze())
+        sigmoid_loss_energy_in = torch.sigmoid(logistic_regression(Ec_in.unsqueeze(1)).squeeze())
 
         sigmoid_energy_losses.extend(list(to_np(sigmoid_loss_energy_in)))
 
         # in-distribution classification losses
-        loss_ce = F.cross_entropy(y, target, reduction='none')
+        loss_ce = F.cross_entropy(y, target, reduction="none")
 
         ce_losses.extend(list(to_np(loss_ce)))
 

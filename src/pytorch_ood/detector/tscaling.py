@@ -73,7 +73,7 @@ class TemperatureScaling(MaxSoftmax, torch.nn.Module):
         known = is_known(labels)
 
         if not known.any():
-            raise ValueError("No IN samples")
+            raise ValueError("No ID samples")
 
         optimizer = LBFGS([self.t], lr=0.01, max_iter=50)
 

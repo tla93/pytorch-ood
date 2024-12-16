@@ -90,9 +90,9 @@ class CIFAR100_ODIN(Benchmark):
     def test_sets(self, known=True, unknown=True) -> List[Dataset]:
         """
         List of the different test datasets.
-        If known and unknown are true, each dataset contains IN and OOD data.
+        If known and unknown are true, each dataset contains ID and OOD data.
 
-        :param known: include IN
+        :param known: include ID
         :param unknown: include OOD
         """
 
@@ -222,9 +222,9 @@ class CIFAR100_OpenOOD(Benchmark):
     def test_sets(self, known=True, unknown=True) -> List[Dataset]:
         """
         List of the different test datasets.
-        If known and unknown are true, each dataset contains IN and OOD data.
+        If known and unknown are true, each dataset contains ID and OOD data.
 
-        :param known: include IN
+        :param known: include ID
         :param unknown: include OOD
         """
 

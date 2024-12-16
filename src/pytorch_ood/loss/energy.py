@@ -15,7 +15,7 @@ def _energy(logits: torch.Tensor) -> torch.Tensor:
 class EnergyRegularizedLoss(nn.Module):
     """
     Augments the cross-entropy by  a regularization term
-    that aims to increase the energy gap between IN and OOD samples.
+    that aims to increase the energy gap between ID and OOD samples.
     This term is defined as
 
     .. math::
@@ -45,7 +45,7 @@ class EnergyRegularizedLoss(nn.Module):
     ):
         """
         :param alpha: weighting parameter
-        :param margin_in:  margin energy :math:`m_{in}` for IN data
+        :param margin_in:  margin energy :math:`m_{in}` for ID data
         :param margin_out: margin energy :math:`m_{out}` for OOD data
         :param reduction: can be one of ``none``, ``mean``, ``sum``
         """

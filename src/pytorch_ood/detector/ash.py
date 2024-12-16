@@ -85,7 +85,7 @@ class ASH(Detector):
     the highest activations. The remaining activations are modified, depending on the particular variant selected, and
     propagated through the remainder (head) of the network.
     Then uses the energy based outlier score.
-    This approach has been shown to increase OOD detection rates while maintaining IN accuracy.
+    This approach has been shown to increase OOD detection rates while maintaining ID accuracy.
 
     * ASH-P: only prune, do not modify
     * ASH-B: binarize remaining activations
