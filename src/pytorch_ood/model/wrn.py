@@ -202,7 +202,7 @@ class WideResNet(nn.Module):
         """
         Return evaluation transform for pretrained model
         """
-        if pretrained in ["cifar10-pt", "cifar100-pt"]:
+        if pretrained in ["cifar10-pt", "cifar100-pt", "er-cifar10-tune"]:
             # Setup preprocessing
             mean = [x / 255 for x in [125.3, 123.0, 113.9]]
             std = [x / 255 for x in [63.0, 62.1, 66.7]]
