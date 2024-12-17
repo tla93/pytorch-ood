@@ -37,7 +37,7 @@ trans = WideResNet.transform_for("cifar10-pt")
 
 dataset = CIFAR10(root="data", train=True, transform=trans, download=True)
 
-# setup IN test data
+# setup ID test data
 dataset_in_test = CIFAR10(root="data", train=False, transform=trans)
 
 # setup OOD test data, use ToUnknown() to mark labels as OOD

@@ -133,7 +133,7 @@ class OODMetrics(object):
 
     - AUROC (see `ArXiv <https://arxiv.org/pdf/1610.02136>`__ or `ArXiv <https://arxiv.org/pdf/1706.02690>`__ for more information)
     - AUTC (see `ArXiv <https://arxiv.org/pdf/2306.14658>`__ for more information)
-    - AUPR IN (see `ArXiv <https://arxiv.org/pdf/1610.02136>`__ or `ArXiv <https://arxiv.org/pdf/1706.02690>`__ for more information)
+    - AUPR ID (see `ArXiv <https://arxiv.org/pdf/1610.02136>`__ or `ArXiv <https://arxiv.org/pdf/1706.02690>`__ for more information)
     - AUPR OUT (see `ArXiv <https://arxiv.org/pdf/1610.02136>`__ or `ArXiv <https://arxiv.org/pdf/1706.02690>`__ for more information)
     - FPR\\@95TPR (see `ArXiv <https://arxiv.org/pdf/1706.02690>`__ for more information)
 
@@ -220,12 +220,12 @@ class OODMetrics(object):
             labels = labels[void_mask]
             scores = scores[void_mask]
 
-        # map OOD to 1 (positive), map IN to 0 (negative)
+        # map OOD to 1 (positive), map ID to 0 (negative)
         labels = is_unknown(labels).long()
 
-        # there must now be IN and OOD samples
+        # there must now be ID and OOD samples
         if len(torch.unique(labels)) != 2:
-            raise ValueError("Data must contain IN and OOD samples.")
+            raise ValueError("Data must contain ID and OOD samples.")
 
         scores, scores_idx = torch.sort(scores, stable=True)
         labels = labels[scores_idx]
@@ -259,7 +259,7 @@ class OODMetrics(object):
         Calculate metrics
 
         :return: dictionary with different metrics
-        :raise: ValueError if data does not contain IN and OOD points or buffer is empty
+        :raise: ValueError if data does not contain ID and OOD points or buffer is empty
         """
         if self.buffer.is_empty():
             raise ValueError("Must be given data to calculate metrics.")

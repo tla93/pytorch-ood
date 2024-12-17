@@ -3,7 +3,7 @@
 
 Classification
 ----------------------
-Contains datasets often used in anomaly Detection, where the entire input is labels as either IN or OOD.
+Contains datasets often used in anomaly Detection, where the entire input is labels as either ID or OOD.
 
 Textures
 ``````````````````````````
@@ -124,11 +124,6 @@ Chars74k
 ..  autoclass:: pytorch_ood.dataset.img.Chars74k
     :members:
 
-PixMix
-``````````````````````````
-..  autoclass:: pytorch_ood.dataset.img.PixMixDataset
-    :members:
-
 Fractals
 `````````````
 ..  autoclass:: pytorch_ood.dataset.img.FractalDataset
@@ -213,8 +208,7 @@ from .mvtech import MVTechAD
 from .ninco import NINCO
 from .noise import GaussianNoise, UniformNoise
 from .odin import LSUNCrop, LSUNResize, TinyImageNetCrop, TinyImageNetResize
-from .openood import OpenImagesO, Places365, iNaturalist, ImageNetV2, ImageNetES, SSBHard
-from .pixmix import FeatureVisDataset, FractalDataset, PixMixDataset
+from .openood import OpenImagesO, Places365, iNaturalist
 from .roadanomaly import RoadAnomaly
 from .smiyc import SegmentMeIfYouCan
 from .streethazards import StreetHazards
@@ -222,3 +216,4 @@ from .sumnist import SuMNIST
 from .textures import Textures
 from .tinyimagenet import TinyImageNet
 from .tinyimages import TinyImages, TinyImages300k
+from .pixmix import FeatureVisDataset, FractalDataset

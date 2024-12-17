@@ -82,7 +82,7 @@ class SHE(Detector):
         known = is_known(y)
 
         if not known.any():
-            raise ValueError("No IN samples")
+            raise ValueError("No ID samples")
 
         y = y[known]
         z = z[known]

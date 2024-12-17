@@ -13,7 +13,7 @@ from ..utils import apply_reduction, is_known
 class DeepSVDDLoss(torch.nn.Module):
     """
     Deep Support Vector Data Description  (SVDD) from the paper *Deep One-Class Classification*.
-    It places a center :math:`\\mu` in the output space of the model and pulls IN samples towards
+    It places a center :math:`\\mu` in the output space of the model and pulls ID samples towards
     the sphere with center :math:`r` it in order to learn the common factors of intra class variance.
 
     The loss is defined as follows:
@@ -77,7 +77,7 @@ class DeepSVDDLoss(torch.nn.Module):
     def forward(self, x: Tensor, y: Optional[Tensor] = None) -> Tensor:
         """
         :param x: features
-        :param y: target labels (either IN or OOD). If not given, will assume all samples are IN.
+        :param y: target labels (either ID or OOD). If not given, will assume all samples are IN.
         :return: :math:`\\lVert x - \\mu \\rVert^2 - r^2`
         """
         loss = DeepSVDDLoss.svdd_loss(x, self.center, radius=self.radius, y=y)
@@ -91,7 +91,7 @@ class DeepSVDDLoss(torch.nn.Module):
         y: Optional[Tensor] = None,
     ) -> Tensor:
         """
-        Calculates the loss. Treats all IN samples equally, and ignores all OOD samples.
+        Calculates the loss. Treats all ID samples equally, and ignores all OOD samples.
         If no labels are given, assumes all samples are IN.
 
         :param x: features
@@ -115,7 +115,7 @@ class DeepSVDDLoss(torch.nn.Module):
 class SSDeepSVDDLoss(torch.nn.Module):
     """
     Semi-Supervised generalization of Deep Support Vector Data Description.
-    It places a center :math:`\\mu` in the output space of the model and pulls IN samples towards this center in order
+    It places a center :math:`\\mu` in the output space of the model and pulls ID samples towards this center in order
     to learn the common factors of intra class variance.
 
     This distance of a representation this center can be used as outlier score for the corresponding input.

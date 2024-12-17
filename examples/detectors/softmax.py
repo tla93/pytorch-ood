@@ -20,7 +20,7 @@ device = "cuda:0"
 
 trans = WideResNet.transform_for("cifar10-pt")
 
-# setup IN test data
+# setup ID test data
 dataset_in_test = CIFAR10(root="data", train=False, download=True, transform=trans)
 # setup OOD test data
 dataset_out_test = Textures(

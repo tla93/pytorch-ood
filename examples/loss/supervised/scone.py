@@ -37,12 +37,13 @@ torch.manual_seed(123)
 n_epochs = 100
 device = "cuda:0"
 
+
 def evaluate_classification_loss_training(
     model: Callable[[Tensor], Tensor], train_loader_in
 ) -> floating:
     """
     Evaluate classification loss on ID training dataset.
-    
+
     :param model: neural network to pass inputs to
     :param train_loader_in: dataset to extract from
     :return: ndarray with average loss
@@ -59,7 +60,7 @@ def evaluate_classification_loss_training(
         y = model(data)
 
         # in-distribution classification accuracy
-        loss_ce = F.cross_entropy(y, target, reduction='none')
+        loss_ce = F.cross_entropy(y, target, reduction="none")
 
         losses.extend(list(to_np(loss_ce)))
 
@@ -68,20 +69,21 @@ def evaluate_classification_loss_training(
 
     return avg_loss
 
+
 # %%
 # Setup preprocessing and data
 trans = tvt.Compose([tvt.Resize(size=(32, 32)), tvt.ToTensor()])
 
-# setup IN training data
+# setup ID training data
 dataset_in_train = CIFAR10(root="data", train=True, download=True, transform=trans)
 
 # setup OOD training data, use ToUnknown() to mark labels as OOD
-# this way, outlier exposure can automatically decide if the training samples are IN or OOD
+# this way, outlier exposure can automatically decide if the training samples are ID or OOD
 dataset_out_train = TinyImages300k(
     root="data", download=True, transform=trans, target_transform=ToUnknown()
 )
 
-# setup IN test data
+# setup ID test data
 dataset_in_test = CIFAR10(root="data", train=False, transform=trans)
 
 # TODO: Add Covariate-shifted Data
@@ -92,9 +94,7 @@ dataset_out_test = Textures(
 )
 
 # create data loaders
-train_loader = DataLoader(
-    dataset_in_train + dataset_out_train, batch_size=64, shuffle=True
-)
+train_loader = DataLoader(dataset_in_train + dataset_out_train, batch_size=64, shuffle=True)
 test_loader = DataLoader(dataset_in_test + dataset_out_test, batch_size=128)
 
 train_loader_in = DataLoader(dataset_in_train, batch_size=128)
@@ -112,15 +112,27 @@ logistic_regression = nn.Linear(1, 1)
 
 logistic_regression.to(device)
 
-opti = SGD(list(model.parameters()) + list(logistic_regression.parameters()), lr=0.0001, momentum=0.9, weight_decay=0.0005, nesterov=True)
+opti = SGD(
+    list(model.parameters()) + list(logistic_regression.parameters()),
+    lr=0.0001,
+    momentum=0.9,
+    weight_decay=0.0005,
+    nesterov=True,
+)
 
-# Calculate IN Classification Loss Before Fine-Tuning
-full_train_loss = evaluate_classification_loss_training(model=model, train_loader_in=train_loader_in)
+# Calculate ID Classification Loss Before Fine-Tuning
+full_train_loss = evaluate_classification_loss_training(
+    model=model, train_loader_in=train_loader_in
+)
 
 criterion = EnergyMarginLoss(full_train_loss=full_train_loss)
 
-scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer=opti,
-                                                 milestones=[int(n_epochs*.5), int(n_epochs*.75), int(n_epochs*.9)], gamma=0.5)
+scheduler = torch.optim.lr_scheduler.MultiStepLR(
+    optimizer=opti,
+    milestones=[int(n_epochs * 0.5), int(n_epochs * 0.75), int(n_epochs * 0.9)],
+    gamma=0.5,
+)
+
 
 # %%
 # Define a function to test the model
@@ -148,6 +160,8 @@ for epoch in range(n_epochs):
         opti.zero_grad()
         loss.backward()
         opti.step()
-    criterion.update_hyperparameters(model=model, train_loader_in=train_loader_in, logistic_regression=logistic_regression)
+    criterion.update_hyperparameters(
+        model=model, train_loader_in=train_loader_in, logistic_regression=logistic_regression
+    )
     test()
     scheduler.step()

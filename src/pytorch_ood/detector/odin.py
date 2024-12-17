@@ -100,7 +100,7 @@ class ODIN(Detector):
     Networks*.
 
     ODIN is a preprocessing method for inputs that aims to increase the discriminability of
-    the softmax outputs for IN and OOD data.
+    the softmax outputs for ID and OOD data.
 
     The operation requires two forward and one backward pass.
 

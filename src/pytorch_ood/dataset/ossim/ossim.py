@@ -43,7 +43,7 @@ class OpenSetSimulation(object):
     def train_dataset(self, in_dist=True, out_dist=False) -> Dataset:
         """
 
-        :param in_dist: include IN data
+        :param in_dist: include ID data
         :param out_dist: include OOD data
         :return:
         """
@@ -52,7 +52,7 @@ class OpenSetSimulation(object):
     def val_dataset(self, in_dist=True, out_dist=True) -> Dataset:
         """
 
-        :param in_dist: include IN data
+        :param in_dist: include ID data
         :param out_dist: include OOD data
         :return:
         """
@@ -61,7 +61,7 @@ class OpenSetSimulation(object):
     def test_dataset(self, in_dist=True, out_dist=True) -> Dataset:
         """
 
-        :param in_dist: include IN data
+        :param in_dist: include ID data
         :param out_dist: include OOD data
         :return:
         """
