@@ -54,8 +54,8 @@ If you notice that the scores predicted by a detector do not match the formulas 
 
 ⏳ Quick Start
 ^^^^^^^^^^^^^^^^^
-Load model pre-trained on CIFAR-10 with the Energy-Bounded Learning Loss [#EnergyBasedOOD]_, and predict on some dataset ``data_loader`` using
-Energy-based Out-of-Distribution Detection [#EnergyBasedOOD]_, calculating the common OOD detection metrics. 
+Load a WideResNet-40 model (used in major publications), pre-trained on CIFAR-10 with the Energy-Bounded Learning Loss [#EnergyBasedOOD]_ (weights from to original paper), and predict on some dataset ``data_loader`` using
+Energy-based OOD Detection (EBO) [#EnergyBasedOOD]_, calculating the common metrics. 
 OOD data must be marked with labels < 0.
 
 .. code-block:: python
@@ -63,11 +63,13 @@ OOD data must be marked with labels < 0.
 
     from pytorch_ood.detector import EnergyBased
     from pytorch_ood.utils import OODMetrics
+    from pytorch_ood.model import WideResNet
 
-    data_loader = ... # your data 
+    data_loader = ... # your data, OOD with label < 0
 
     # Create Neural Network
     model = WideResNet(num_classes=10, pretrained="er-cifar10-tune").eval().cuda()
+    preprocess = WideResNet.transform_for("er-cifar10-tune")
 
     # Create detector
     detector = EnergyBased(model)
@@ -76,7 +78,8 @@ OOD data must be marked with labels < 0.
     metrics = OODMetrics()
 
     for x, y in data_loader:
-        metrics.update(detector(x.cuda()), y)
+        x = preprocess(x).cuda()
+        metrics.update(detector(x, y)
 
     print(metrics.compute())
 
