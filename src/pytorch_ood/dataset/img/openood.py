@@ -193,20 +193,15 @@ class ImageNetV2(OpenOOD):
     filename = "imagenet_v2.zip"
     target_dir = "imagenet_v2"
     base_folder = target_dir
-    available_subsets = ["test"]
 
     def __init__(
         self,
         root: str,
-        subset="test",
         transform: Optional[Callable] = None,
         target_transform: Optional[Callable] = None,
         download: bool = False,
     ) -> None:
-        """
-        :param subset: can only ``test``
-        """
-        assert subset in self.available_subsets
+
         super(ImageNetV2, self).__init__(
             root=root,
             transform=transform,
@@ -257,21 +252,16 @@ class ImageNetES(OpenOOD):
     filename = "imagenet_es.zip"
     target_dir = "imagenet_es"
     base_folder = join(target_dir, "es-test")
-    available_subsets = ["test"]
     data_file = "imagenet_es.json"
 
     def __init__(
         self,
         root: str,
-        subset="test",
         transform: Optional[Callable] = None,
         target_transform: Optional[Callable] = None,
         download: bool = False,
     ) -> None:
-        """
-        :param subset: can only ``test``
-        """
-        assert subset in self.available_subsets
+
         super(ImageNetES, self).__init__(
             root=root,
             transform=transform,
@@ -330,20 +320,14 @@ class SSBHard(OpenOOD):
     filename = "ssb_hard.zip"
     target_dir = "ssb_hard"
     base_folder = target_dir
-    available_subsets = ["test"]
 
     def __init__(
         self,
         root: str,
-        subset="test",
         transform: Optional[Callable] = None,
         target_transform: Optional[Callable] = None,
         download: bool = False,
     ) -> None:
-        """
-        :param subset: can only ``test``
-        """
-        assert subset in self.available_subsets
         super(SSBHard, self).__init__(
             root=root,
             transform=transform,
