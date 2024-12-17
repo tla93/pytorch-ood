@@ -55,7 +55,8 @@ If you notice that the scores predicted by a detector do not match the formulas 
 ⏳ Quick Start
 ^^^^^^^^^^^^^^^^^
 Load model pre-trained on CIFAR-10 with the Energy-Bounded Learning Loss [#EnergyBasedOOD]_, and predict on some dataset ``data_loader`` using
-Energy-based Out-of-Distribution Detection [#EnergyBasedOOD]_, calculating the common OOD detection metrics:
+Energy-based Out-of-Distribution Detection [#EnergyBasedOOD]_, calculating the common OOD detection metrics. 
+OOD data must be marked with labels < 0.
 
 .. code-block:: python
 
