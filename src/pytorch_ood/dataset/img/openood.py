@@ -28,6 +28,8 @@ class OpenOOD(ImageDatasetBase):
         target_transform: Optional[Callable] = None,
         download: bool = False,
     ) -> None:
+        self.archive_file = join(root, self.filename)
+
         super(OpenOOD, self).__init__(
             root=root,
             transform=transform,
@@ -50,7 +52,7 @@ class OpenOOD(ImageDatasetBase):
         extract_archive(from_path=self.archive_file, to_path=join(self.root, self.target_dir))
 
     def _check_integrity(self) -> bool:
-        return exists(join(self.root, self.filename))
+        return exists(self.archive_file)
 
 
 class iNaturalist(OpenOOD):
@@ -78,7 +80,6 @@ class iNaturalist(OpenOOD):
         target_transform: Optional[Callable] = None,
         download: bool = False,
     ) -> None:
-        self.archive_file = join(root, self.filename)
         super(iNaturalist, self).__init__(
             root=root,
             transform=transform,
