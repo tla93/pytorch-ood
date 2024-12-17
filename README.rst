@@ -20,32 +20,28 @@ PyTorch Out-of-Distribution Detection
    :target: https://pepy.tech/project/pytorch-ood
    :alt: Downloads
 
------
-
 .. image:: docs/_static/pytorch-ood-logo.jpg
    :align: center
    :width: 100%
    :alt: pytorch-ood-logo
 
------
 
-
-Out-of-Distribution (OOD) Detection with Deep Neural Networks based on PyTorch.
+A Python library for Out-of-Distribution (OOD) Detection with Deep Neural Networks based on PyTorch.
 
 The library provides:
 
 - Out-of-Distribution Detection Methods
 - Loss Functions
 - Datasets
-- Neural Network Architectures as well as pretrained weights
+- Neural Network Architectures, as well as pre-trained weights
+- Data Augmentations 
 - Useful Utilities
 
-and is designed such that it should be compatible with frameworks
+and is designed to be compatible with frameworks
 like `pytorch-lightning <https://www.pytorchlightning.ai>`_ and
 `pytorch-segmentation-models <https://github.com/qubvel/segmentation_models.pytorch>`_.
-The library also covers some methods from closely related fields such as Open-Set Recognition, Novelty Detection,
+The library also covers some methods from closely related fields, such as Open-Set Recognition, Novelty Detection,
 Confidence Estimation and Anomaly Detection.
-
 
 
 📚  Documentation
@@ -54,8 +50,7 @@ The documentation is available `here <https://pytorch-ood.readthedocs.io/en/late
 
 **NOTE**: An important convention adopted in ``pytorch-ood`` is that **OOD detectors predict outlier scores**
 that should be larger for outliers than for inliers.
-If you notice that the scores predicted by a detector do not match the formulas in the corresponding publication,
-it may be possible that we multiplied the scores by negative one to comply with this convention.
+If you notice that the scores predicted by a detector do not match the formulas in the corresponding publication, we may have adjusted the score calculation to comply with this convention.
 
 ⏳ Quick Start
 ^^^^^^^^^^^^^^^^^
@@ -64,9 +59,11 @@ Energy-based Out-of-Distribution Detection [#EnergyBasedOOD]_, calculating the c
 
 .. code-block:: python
 
-    from pytorch_ood.model import WideResNet
+
     from pytorch_ood.detector import EnergyBased
     from pytorch_ood.utils import OODMetrics
+
+    data_loader = ... # your data 
 
     # Create Neural Network
     model = WideResNet(num_classes=10, pretrained="er-cifar10-tune").eval().cuda()
@@ -84,6 +81,48 @@ Energy-based Out-of-Distribution Detection [#EnergyBasedOOD]_, calculating the c
 
 
 You can find more examples in the `documentation <https://pytorch-ood.readthedocs.io/en/latest/auto_examples/benchmarks/>`_.
+
+Benchmarks (Beta)
+---------------------------
+
+Evaluate detectors against common benchmarks, for example the OpenOOD ImageNet benchmark 
+(including ImageNet-O, OpenImages-O, Textures, SVHN, MNIST).  All datasets (except for ImageNet itself) will be downloaded automatically. 
+
+.. code-block:: python 
+
+   import pandas as pd
+   from pytorch_ood.benchmark import ImageNet_OpenOOD
+   from pytorch_ood.detector import MaxSoftmax
+   from torchvision.models import resnet50
+   from torchvision.models.resnet import ResNet50_Weights
+
+   model = resnet50(ResNet50_Weights.IMAGENET1K_V1).eval().to("cuda:0")
+   trans = ResNet50_Weights.IMAGENET1K_V1.transforms()
+
+   benchmark = ImageNet_OpenOOD(root="data", image_net_root="data/imagenet-2012/", transform=trans)
+  
+   detector = MaxSoftmax(model)
+   results = benchmark.evaluate(detector, loader_kwargs={"batch_size": 64}, device="cuda:0")
+   df = pd.DataFrame(results)
+   print(df)
+
+
+This produces the following table:
+
++-------------+----------+-------+---------+----------+----------+
+| Dataset     | Detector | AUROC | AUPR-IN | AUPR-OUT | FPR95TPR |
++=============+==========+=======+=========+==========+==========+
+| ImageNetO   | MSP      | 28.64 | 2.52    | 94.85    | 91.20    |
++-------------+----------+-------+---------+----------+----------+
+| OpenImagesO | MSP      | 84.98 | 62.61   | 94.67    | 49.95    |
++-------------+----------+-------+---------+----------+----------+
+| Textures    | MSP      | 80.46 | 37.50   | 96.80    | 67.75    |
++-------------+----------+-------+---------+----------+----------+
+| SVHN        | MSP      | 97.62 | 95.56   | 98.77    | 11.58    |
++-------------+----------+-------+---------+----------+----------+
+| MNIST       | MSP      | 90.04 | 90.45   | 89.88    | 39.03    |
++-------------+----------+-------+---------+----------+----------+
+
 
 🛠 ️️Installation
 ^^^^^^^^^^^^^^^^^
