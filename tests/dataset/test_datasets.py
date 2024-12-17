@@ -10,6 +10,12 @@ from src.pytorch_ood.dataset.img import (
     ImageNetC,
     ImageNetO,
     ImageNetR,
+    ImageNetV2,
+    ImageNetES,
+    SSBHard,
+    iNaturalist,
+    OpenImagesO,
+    Places365,
     MVTechAD,
     RoadAnomaly,
     SegmentMeIfYouCan,
@@ -116,7 +122,28 @@ class TestDatasetAvailability(unittest.TestCase):
         status = urlopen(MVTechAD.url).getcode()
         self.assertEqual(status, 200)
 
-        status = urlopen(MVTechAD.url).getcode()
+    def test_download_iNaturalist(self):
+        status = urlopen("https://drive.google.com/uc?id=" + iNaturalist.gdrive_id).getcode()
+        self.assertEqual(status, 200)
+
+    def test_download_OpenImagesO(self):
+        status = urlopen("https://drive.google.com/uc?id=" + OpenImagesO.gdrive_id).getcode()
+        self.assertEqual(status, 200)
+
+    def test_download_Places365(self):
+        status = urlopen("https://drive.google.com/uc?id=" + Places365.gdrive_id).getcode()
+        self.assertEqual(status, 200)
+
+    def test_download_ImageNetV2(self):
+        status = urlopen("https://drive.google.com/uc?id=" + ImageNetV2.gdrive_id).getcode()
+        self.assertEqual(status, 200)
+
+    def test_download_ImageNetES(self):
+        status = urlopen("https://drive.google.com/uc?id=" + ImageNetES.gdrive_id).getcode()
+        self.assertEqual(status, 200)
+
+    def test_download_SSBHard(self):
+        status = urlopen("https://drive.google.com/uc?id=" + SSBHard.gdrive_id).getcode()
         self.assertEqual(status, 200)
 
     @unittest.skip("Too large")
