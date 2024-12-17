@@ -203,6 +203,8 @@ The package can be installed via PyPI:
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
 | FoolingImages         | OOD Images Generated to fool certain Deep Neural Networks.                                                      | 2015 | [#FImages]_   |
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
+| Tiny ImageNet         | A derived version of ImageNet with 64x64-sized images.                                                          | 2015 | [#TinyIN]_    |
++-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
 | TinyImages300k        | A cleaned version of the TinyImages Dataset with 300.000 images, often used as auxiliary OOD training data.     | 2018 | [#OE]_        |
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
 | LSUN                  | A version of the Large-scale Scene UNderstanding Dataset with 10.000 images, often used as auxiliary            | 2018 | [#ODIN]_      |
@@ -217,6 +219,10 @@ The package can be installed via PyPI:
 | ImageNet-C            | Corrupted version of the ImageNet.                                                                              | 2019 | [#Cifar10]_   |
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
 | ImageNet - A, O, R    | Different Outlier Variants for the ImageNet.                                                                    | 2019 | [#ImageNets]_ |
++-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
+| ImageNet - V2         | A new test set for the ImageNet.                                                                                | 2019 | [#ImageNV2]_  |
++-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
+| ImageNet - ES         | Event stream (ES) version of the ImageNet.                                                                      | 2021 | [#ImageNES]_  |
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
 | iNaturalist           | A Subset of iNaturalist, with 10.000 images.                                                                    | 2021 | [#INatural]_  |
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
@@ -236,6 +242,8 @@ The package can be installed via PyPI:
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
 | CIFAR100-GAN          | Images sampled from low likelihood regions of a BigGAN trained on CIFAR 100 from the paper *On Outlier Exposure | 2022 | [#CifarGAN]_  |
 |                       | with Generative Models.*                                                                                        |      |               |
++-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
+| SSB - hard            | The hard split of the Semantic Shift Benchmark, which contains 49.00 images.                                    | 2022 | [#SSB]_       |
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
 | NINCO                 | The NINCO (No ImageNet Class Objects) dataset which contains 5.879 images of 64 OOD classes.                    | 2023 | [#NINCO]_     |
 +-----------------------+-----------------------------------------------------------------------------------------------------------------+------+---------------+
@@ -318,7 +326,7 @@ The legal implications of using pre-trained models in commercial services are, t
 
 .. [#TempScaling] Guo, C., et al. (2017). On calibration of modern neural networks. ICML.
 
-.. [#ConfidenceLoss] DeVries, T., & Taylor, G. W. (2018). Learning confidence for out-of-distribution detection in neural networks. `ArXiv <https://arxiv.org/pdf/1802.04865>`_
+.. [#ConfidenceLoss] DeVries, T., & Taylor, G. W. (2018). Learning confidence for out-of-distribution detection in neural networks. `ArXiv <https://arxiv.org/pdf/1802.04865>`_.
 
 .. [#EnergyBasedOOD] Liu, W., et al. (2020). Energy-based out-of-distribution detection. NeurIPS.
 
@@ -338,21 +346,29 @@ The legal implications of using pre-trained models in commercial services are, t
 
 .. [#FImages] Nguyen, A., et al. (2015). Deep neural networks are easily fooled: High confidence predictions for unrecognizable images. CVPR.
 
+.. [#TinyIN] Le, Y., et al. (2015). Tiny ImageNet Visual Recognition Challenge. `Stanford <https://cs231n.stanford.edu/reports/2015/pdfs/yle_project.pdf>`_.
+
 .. [#ImageNets] Hendrycks, D., et al. (2021). Natural adversarial examples. CVPR.
+
+.. [#ImageNV2] Recht, B., et al. (2019).  Do imagenet classifiers generalize to imagenet?. PMLR.
+
+.. [#ImageNES] Lin, Y., et al. (2021).  ES-ImageNet: A Million Event-Stream Classification Dataset for Spiking Neural Networks. `Front Neurosci <https://pubmed.ncbi.nlm.nih.gov/34899154/>`_.
 
 .. [#MnistC] Mu, N., & Gilmer, J. (2019). MNIST-C: A robustness benchmark for computer vision. ICLR Workshop.
 
-.. [#FS] Blum, H. et al (2021) The Fishyscapes Benchmark: Measuring Blind Spots in Semantic Segmentation. IJCV
+.. [#FS] Blum, H. et al (2021) The Fishyscapes Benchmark: Measuring Blind Spots in Semantic Segmentation. IJCV.
 
 .. [#MVTech] Bergmann, P. et al (2021) The MVTec Anomaly Detection Dataset: A Comprehensive Real-World Dataset for Unsupervised Anomaly Detection. IJCV
 
 .. [#StreeHaz] Hendrycks, D., et al. (2022). Scaling out-of-distribution detection for real-world settings. ICML.
 
-.. [#CifarGAN] Kirchheim, K., & Ortmeier, F. (2022) On Outlier Exposure with Generative Models. NeurIPS
+.. [#CifarGAN] Kirchheim, K., & Ortmeier, F. (2022) On Outlier Exposure with Generative Models. NeurIPS.
 
-.. [#NINCO] Bitterwolf, J., et al. (2023) In or Out? Fixing ImageNet Out-of-Distribution Detection Evaluation. ICML
+.. [#SSB] Vaze, S., et al. (2022)  Open-set recognition: A good closed-set classifier is all you need. ICLR.
 
-.. [#SuMNIST] Kirchheim, K. (2023) Towards Deep Anomaly Detection with Structured Knowledge Representations. SAFECOMP
+.. [#NINCO] Bitterwolf, J., et al. (2023) In or Out? Fixing ImageNet Out-of-Distribution Detection Evaluation. ICML.
+
+.. [#SuMNIST] Kirchheim, K. (2023) Towards Deep Anomaly Detection with Structured Knowledge Representations. SAFECOMP.
 
 .. [#Textures] Cimpoi, M., et al. (2014). Describing textures in the wild. CVPR.
 
@@ -364,24 +380,24 @@ The legal implications of using pre-trained models in commercial services are, t
 
 .. [#WikiText2] Merity, S., et al. (2016). Pointer sentinel mixture models. `ArXiv <https://arxiv.org/abs/1609.07843>`_
 
-.. [#INatural] Huang, R., & Li, Y. (2021) MOS: Towards Scaling Out-of-distribution Detection for Large Semantic Space. CVPR
+.. [#INatural] Huang, R., & Li, Y. (2021) MOS: Towards Scaling Out-of-distribution Detection for Large Semantic Space. CVPR.
 
-.. [#MCHAD] Kirchheim, K., et al. (2022) Multi Class Hypersphere Anomaly Detection. ICPR
+.. [#MCHAD] Kirchheim, K., et al. (2022) Multi Class Hypersphere Anomaly Detection. ICPR.
 
-.. [#ViM] Wang, H., et al. (2022) ViM: Out-Of-Distribution with Virtual-logit Matching. CVPR
+.. [#ViM] Wang, H., et al. (2022) ViM: Out-Of-Distribution with Virtual-logit Matching. CVPR.
 
-.. [#WEBO] Du, X., et al. (2022) VOS: Learning What You Don't Know by Virtual Outlier Synthesis. ICLR
+.. [#WEBO] Du, X., et al. (2022) VOS: Learning What You Don't Know by Virtual Outlier Synthesis. ICLR.
 
-.. [#kNN] Sun, Y., et al. (2022) Out-of-Distribution Detection with Deep Nearest Neighbors. ICML
+.. [#kNN] Sun, Y., et al. (2022) Out-of-Distribution Detection with Deep Nearest Neighbors. ICML.
 
-.. [#PixMix] Hendrycks, D, et al. (2022) PixMix: Dreamlike Pictures Comprehensively Improve Safety Measures. CVPR
+.. [#PixMix] Hendrycks, D, et al. (2022) PixMix: Dreamlike Pictures Comprehensively Improve Safety Measures. CVPR.
 
-.. [#MaxEntropy] Chan R,  et al. (2021) Entropy maximization and meta classification for out-of-distribution detection in semantic segmentation. CVPR
+.. [#MaxEntropy] Chan R,  et al. (2021) Entropy maximization and meta classification for out-of-distribution detection in semantic segmentation. CVPR.
 
-.. [#DICE] Sun, et al. (2022) DICE: Leveraging Sparsification for Out-of-Distribution Detection. ECCV
+.. [#DICE] Sun, et al. (2022) DICE: Leveraging Sparsification for Out-of-Distribution Detection. ECCV.
 
-.. [#ASH] Djurisic,  et al. (2023) Extremely Simple Activation Shaping for Out-of-Distribution Detection, ICLR
+.. [#ASH] Djurisic,  et al. (2023) Extremely Simple Activation Shaping for Out-of-Distribution Detection, ICLR.
 
-.. [#She] Zhang,  et al. (2023) Out-of-Distribution Detection Based on In-Distribution Data Patterns Memorization with Modern Hopfield Energy, ICLR
+.. [#She] Zhang,  et al. (2023) Out-of-Distribution Detection Based on In-Distribution Data Patterns Memorization with Modern Hopfield Energy, ICLR.
 
 .. [#ReAct] Sun,  et al. (2023) ReAct: Out-of-distribution Detection With Rectified Activations, NeurIPS

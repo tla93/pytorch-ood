@@ -66,6 +66,16 @@ ImageNet-R
 ..  autoclass:: pytorch_ood.dataset.img.ImageNetR
     :members:
 
+ImageNet-V2
+`````````````
+..  autoclass:: pytorch_ood.dataset.img.ImageNetV2
+    :members:
+
+ImageNet-ES
+`````````````
+..  autoclass:: pytorch_ood.dataset.img.ImageNetES
+    :members:
+
 MNIST-C
 `````````````
 ..  autoclass:: pytorch_ood.dataset.img.MNISTC
@@ -102,6 +112,12 @@ iNaturalist
 `````````````
 ..  autoclass:: pytorch_ood.dataset.img.iNaturalist
     :members:
+
+SSBHard
+`````````````
+..  autoclass:: pytorch_ood.dataset.img.SSBHard
+    :members:
+
 
 Chars74k
 `````````````
@@ -192,7 +208,7 @@ from .mvtech import MVTechAD
 from .ninco import NINCO
 from .noise import GaussianNoise, UniformNoise
 from .odin import LSUNCrop, LSUNResize, TinyImageNetCrop, TinyImageNetResize
-from .openood import OpenImagesO, Places365, iNaturalist
+from .openood import OpenImagesO, Places365, iNaturalist, ImageNetV2, ImageNetES, SSBHard
 from .roadanomaly import RoadAnomaly
 from .smiyc import SegmentMeIfYouCan
 from .streethazards import StreetHazards
