@@ -208,7 +208,7 @@ from .mvtech import MVTechAD
 from .ninco import NINCO
 from .noise import GaussianNoise, UniformNoise
 from .odin import LSUNCrop, LSUNResize, TinyImageNetCrop, TinyImageNetResize
-from .openood import OpenImagesO, Places365, iNaturalist
+from .openood import OpenImagesO, Places365, iNaturalist, ImageNetV2, ImageNetES, SSBHard
 from .roadanomaly import RoadAnomaly
 from .smiyc import SegmentMeIfYouCan
 from .streethazards import StreetHazards
