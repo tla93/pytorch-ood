@@ -17,7 +17,6 @@ from torch import Tensor
 from torch.nn import Module
 from torch.utils.data import DataLoader
 
-import tqdm
 import numpy as np
 from ..api import Detector, ModelNotSetException, RequiresFittingException
 
