@@ -20,9 +20,41 @@ class TestMetrics(unittest.TestCase):
         r = metrics.compute()
         print(r)
         self.assertEqual(r["AUROC"], 1.0)
+        self.assertEqual(round(r["AUTC"], 3), 0.0)
         self.assertEqual(r["AUPR-IN"], 1.0)
         self.assertEqual(r["AUPR-OUT"], 1.0)
         self.assertEqual(r["FPR95TPR"], 0.0)
+
+    def test_autc(self):
+        # split
+        in_samples_num = 9
+        out_samples_num = 1
+
+        # random torch tensors
+        offset = 10**3
+        in_scores = torch.rand(in_samples_num * offset)
+        near_out_scores = torch.rand(out_samples_num * offset) + 2
+        far_out_scores = torch.rand(out_samples_num * offset) + 10
+
+        # create labels
+        labels = torch.cat([torch.zeros_like(in_scores), torch.ones_like(near_out_scores)])
+
+        metrics_near = OODMetrics()
+        metrics_near.update(torch.cat([in_scores, near_out_scores]), -labels)
+        metric_dict_near = metrics_near.compute()
+
+        metrics_far = OODMetrics()
+        metrics_far.update(torch.cat([in_scores, far_out_scores]), -labels)
+        metric_dict_far = metrics_far.compute()
+
+        print("Near", metric_dict_near)
+        print("Far", metric_dict_far)
+
+        self.assertGreater(metric_dict_near["AUTC"], metric_dict_far["AUTC"])
+        self.assertEqual(metric_dict_near["AUROC"], metric_dict_far["AUROC"])
+        self.assertEqual(metric_dict_near["AUPR-IN"], metric_dict_far["AUPR-IN"])
+        self.assertEqual(metric_dict_near["AUPR-OUT"], metric_dict_far["AUPR-OUT"])
+        self.assertEqual(metric_dict_near["FPR95TPR"], metric_dict_far["FPR95TPR"])
 
     def test_void_label(self):
         metrics = OODMetrics(void_label=2)
@@ -39,6 +71,7 @@ class TestMetrics(unittest.TestCase):
         r = metrics.compute()
         print(r)
         self.assertEqual(r["AUROC"], 1.0)
+        self.assertEqual(round(r["AUTC"], 3), 0.0)
         self.assertEqual(r["AUPR-IN"], 1.0)
         self.assertEqual(r["AUPR-OUT"], 1.0)
         self.assertEqual(r["FPR95TPR"], 0.0)
@@ -85,6 +118,7 @@ class TestMetrics(unittest.TestCase):
         metrics.update(x, y)
         r = metrics.compute()
         self.assertEqual(r["AUROC"], 1.0)
+        self.assertEqual(round(r["AUTC"], 3), 0.0)
         self.assertEqual(r["AUPR-IN"], 1.0)
         self.assertEqual(r["AUPR-OUT"], 1.0)
         self.assertEqual(r["FPR95TPR"], 0.0)
