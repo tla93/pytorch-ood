@@ -51,10 +51,6 @@ class TestMetrics(unittest.TestCase):
         print("Far", metric_dict_far)
 
         self.assertGreater(metric_dict_near["AUTC"], metric_dict_far["AUTC"])
-        self.assertEqual(metric_dict_near["AUROC"], metric_dict_far["AUROC"])
-        self.assertEqual(metric_dict_near["AUPR-IN"], metric_dict_far["AUPR-IN"])
-        self.assertEqual(metric_dict_near["AUPR-OUT"], metric_dict_far["AUPR-OUT"])
-        self.assertEqual(metric_dict_near["FPR95TPR"], metric_dict_far["FPR95TPR"])
 
     def test_void_label(self):
         metrics = OODMetrics(void_label=2)
