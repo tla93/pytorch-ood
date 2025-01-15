@@ -119,6 +119,10 @@ Simplified Hopfield Energy (SHE)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. automodule:: pytorch_ood.detector.she
 
+Gram Matrices Based (GM)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. automodule:: pytorch_ood.detector.gram
+
 Activation Pruning
 ---------------------
 
@@ -142,6 +146,7 @@ from .dice import DICE
 from .energy import EnergyBased
 from .entropy import Entropy
 from .klmatching import KLMatching
+from .gram import Gram
 from .knn import KNN
 from .mahalanobis import Mahalanobis
 from .maxlogit import MaxLogit
