@@ -180,6 +180,9 @@ class Gram(Detector):
         if self.head is None:
             raise ModelNotSetException
 
+        if self.feature_min is None:
+            raise RequiresFittingException
+
         logits, feature_list = self._create_feature_list(x)
 
         return self._score(logits, feature_list)
