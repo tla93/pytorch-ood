@@ -104,8 +104,8 @@ def binary_clf_curve(y_true, y_score, pos_label=1):
     """
     Calculate the False Positive Rate at a certain True Positive Rate.
     Args:
-        :param pred: predicted scores for each sample
-        :param target: ground truth labels
+        :param y_true: ground truth labels
+        :param y_score: predicted scores for each sample
         :param pos_label: positive labels 1 or 0
     :return: Tuple containing:
         - fpr: False Positive Rate values
@@ -117,7 +117,8 @@ def binary_clf_curve(y_true, y_score, pos_label=1):
     # all scores must be between 0 and 1
     y_score = (y_score - y_score.min()) / (y_score.max() - y_score.min())
 
-    fpr, tpr, thresholds = binary_roc(y_score, y_true)
+    # 1000 thresholds are enough
+    fpr, tpr, thresholds = binary_roc(y_score, y_true, thresholds=1000)
 
     # add 0 to FPR and TPR
     fpr = torch.cat([torch.tensor([0.0], device=fpr.device), fpr])
