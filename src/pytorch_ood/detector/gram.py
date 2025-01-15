@@ -10,6 +10,7 @@
     :members:
     :exclude-members: fit, fit_features
 """
+import logging
 from typing import Optional, TypeVar, List
 
 import torch
@@ -21,6 +22,8 @@ import numpy as np
 from ..api import Detector, ModelNotSetException, RequiresFittingException
 
 import torch.nn.functional as F
+
+log = logging.getLogger()
 
 Self = TypeVar("Self")
 
@@ -112,7 +115,7 @@ class Gram(Detector):
         ]
 
         with torch.no_grad():
-            # collect features and compute gram metrix
+            # collect features and compute gram matrix
             for n, (x, y) in enumerate(data_loader):
                 data = x.to(device)
                 label = y.to(device)
@@ -136,9 +139,9 @@ class Gram(Detector):
                                 feature_class[label][layer_idx][pole_idx] = feature
                             else:
                                 feature_class[label][layer_idx][pole_idx].extend(feature)
-                # print update steps
+                # print update steps using logging
                 if n % 100 == 0:
-                    print(f"Step {n}/{len(data_loader)}")
+                    log.info(f"Step {n}/{len(data_loader)}")
 
             for label in range(self.num_classes):
                 for layer_idx in range(self.num_layer):
@@ -165,9 +168,9 @@ class Gram(Detector):
 
     def fit_features(self: Self, *args, **kwargs) -> Self:
         """
-        Not required.
+        Not implemented.
         """
-        return self
+        raise NotImplementedError("This method is not implemented. Use fit instead.")
 
     def predict(self, x: Tensor) -> Tensor:
         """

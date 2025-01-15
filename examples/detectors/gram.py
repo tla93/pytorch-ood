@@ -82,11 +82,9 @@ head = MyHead(model.nChannels, model.fc)
 detector = Gram(
     head, [layer1, layer2, layer3, layer4, layer5], num_classes=10, num_poles_list=[1, 2, 3, 4, 5]
 )
-# detector = MultiMahalanobis([layer1, layer2, layer3, layer4, layer5])
 
 print("Fitting...")
 detector.fit(train_loader, device=device)
-# use msp detector
 
 
 # %%
